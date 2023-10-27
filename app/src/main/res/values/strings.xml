@@ -15,12 +15,18 @@
     <string name="ItemDateandTime">Item Date and Time</string>
     <string name="ItemLocation">Item Location</string>
     <string name="ItemDescription">Item Description</string>
-    <string name="kms">kms</string>
-
-
-
-
-
+    <string name="feature1">Lost your item somewhere?</string>
+    <string name="feature2">Don’t know where to search?</string>
+    <string name="feature3">Don’t worry we got you covered</string>
+    <string name="loginorregister">Login or Register</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="details">Enter the details below</string>
+    <string name="createaccount">Create Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirmpassword">Confirm Password</string>
+    <string name="accountsuccessful">Account has been successfully created</string>
 
 
     <string name="lorem_ipsum">
@@ -59,4 +65,5 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="title_activity_feature">FeatureActivity</string>
 </resources>

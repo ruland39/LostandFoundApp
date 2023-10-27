@@ -16,28 +16,31 @@
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:backgroundTint="@color/material_dynamic_tertiary30"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
+            android:backgroundTint="@null"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
             app:layout_constraintTop_toTopOf="parent"
             >
             
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
                 
                 <ImageView
                     android:id="@+id/lostItemImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1"
-                    android:scaleY="1"
-                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/screenshot_2022_05_26_180310"
                     android:contentDescription="@string/LostItemImage"
+                    android:adjustViewBounds="true"
                     />
+
+
+
                 
             </HorizontalScrollView>
 

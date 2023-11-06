@@ -1,5 +1,7 @@
 package com.lostandfoundapp
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -21,21 +23,36 @@ class FeatureActivity : AppCompatActivity() {
         featureText.text = "Lost your item somewhere?"
         featureImage.setImageResource(R.drawable.feature_one)
 
+        //Animation
+        val textFadeOut = ObjectAnimator.ofFloat(featureText, "alpha", 1f, 0f)
+        val imageFadeOut = ObjectAnimator.ofFloat(featureImage, "alpha", 1f, 0f)
+
+        val textFadeIn = ObjectAnimator.ofFloat(featureText, "alpha", 0f, 1f)
+        val imageFadeIn = ObjectAnimator.ofFloat(featureImage, "alpha", 0f, 1f)
+
+        val fadeInOut = AnimatorSet()
+        fadeInOut.playTogether(textFadeOut, imageFadeOut, textFadeIn, imageFadeIn)
+        fadeInOut.duration = 500
+
+
         button.setOnClickListener {
 
             when(featureText.text){
                 "Lost your item somewhere?" -> {
+                    fadeInOut.start()
                     featureText.text = "Don't know where to search?"
                     featureImage.setImageResource(R.drawable.feature_two)
                 }
                 "Don't know where to search?" -> {
+                    fadeInOut.start()
                     featureText.text = "Don't worry we got you covered"
                     featureImage.setImageResource(R.drawable.feature_three)
+                    button.text = "Get Started"
                 }
                 "Don't worry we got you covered" -> {
-                    Toast.makeText(this, "BRUH", Toast.LENGTH_SHORT).show()
-                    val i = intent
-                    i.setClass(this, LoginorRegisterActivity::class.java)
+                    val intent = intent
+                    intent.setClass(this, LoginorRegisterActivity::class.java)
+                    startActivity(intent)
                 }
             }
 

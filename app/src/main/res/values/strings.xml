@@ -73,4 +73,6 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_feature">FeatureActivity</string>
+    <string name="hide_details">Hide Details</string>
+    <string name="show_details">Show Details</string>
 </resources>

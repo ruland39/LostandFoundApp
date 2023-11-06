@@ -21,13 +21,18 @@
     <string name="loginorregister">Login or Register</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
-    <string name="details">Enter the details below</string>
+    <string name="enterdetails">Enter the details below</string>
     <string name="createaccount">Create Account</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="accountsuccessful">Account has been successfully created</string>
-
+    <string name="category">Category</string>
+    <string name="dateandtime">Date and Time</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="submit">Submit</string>
+    <string name="details">Details</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

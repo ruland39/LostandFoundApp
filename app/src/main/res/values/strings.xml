@@ -15,6 +15,7 @@
     <string name="ItemDateandTime">Item Date and Time</string>
     <string name="ItemLocation">Item Location</string>
     <string name="ItemDescription">Item Description</string>
+    <string name="ItemDetails">Item Details</string>
     <string name="feature1">Lost your item somewhere?</string>
     <string name="feature2">Don’t know where to search?</string>
     <string name="feature3">Don’t worry we got you covered</string>
@@ -33,6 +34,7 @@
     <string name="description">Description</string>
     <string name="submit">Submit</string>
     <string name="details">Details</string>
+    <string name="takepart">Take a part in the change now</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

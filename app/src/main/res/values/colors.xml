@@ -7,4 +7,5 @@
     <color name="almost_black">#0E0F0C</color>
     <color name="dark_grey">#454745</color>
     <color name="light_grey">#6A6C6A</color>
+    <color name="card_background">#08163300</color>
 </resources>

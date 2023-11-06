@@ -46,6 +46,13 @@
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/itemnamecontainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal"
@@ -74,14 +81,37 @@
                     android:layout_gravity="center_vertical"
                     />
 
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/categorycontainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="@drawable/black_to_blank_gradient_background"
+                >
+
+                <TextView
+                    android:id="@+id/categorytitle"
+                    android:text="@string/category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/buttonFirst"
-            android:text="@string/kms"
+            android:text="@string/next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/cardView"

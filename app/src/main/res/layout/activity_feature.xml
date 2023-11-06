@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".FeatureActivity">
+    tools:context=".FeatureActivity"
+    android:layout_marginVertical="64dp"
+    >
 
     <TextView
+        android:id="@+id/feature_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/feature1"
@@ -15,13 +18,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/feature_image"
-        android:fontFamily="@font/Product_Sans_Bold"
+        android:fontFamily="@font/product_sans_bold"
         android:textSize="24sp"
         android:paddingHorizontal="96dp"
-        android:layout_marginTop="128dp"
         />
-
-
 
     <ImageView
         android:id="@+id/feature_image"
@@ -33,9 +33,10 @@
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feature_text"
         app:layout_constraintBottom_toTopOf="@id/next_button"
-        android:padding="64dp"
+        android:padding="32dp"
+
         />
 
     <Button
@@ -44,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_margin="16dp"
-        android:fontFamily="@font/Product_Sans_Regular"
+        android:fontFamily="@font/product_sans_bold"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

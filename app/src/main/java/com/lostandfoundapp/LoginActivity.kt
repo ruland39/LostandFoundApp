@@ -18,6 +18,13 @@ class LoginActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.email)
         val password = findViewById<EditText>(R.id.password)
         val loginButton = findViewById<Button>(R.id.login_button)
+        val backButton = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.back_button)
+
+        backButton.setOnClickListener(){
+            val intent = intent
+            intent.setClass(this, LoginorRegisterActivity::class.java)
+            startActivity(intent)
+        }
 
         loginButton.isEnabled = false
 

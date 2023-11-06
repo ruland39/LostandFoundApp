@@ -13,20 +13,27 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_anchor="@+id/appBarLayout"
-            app:layout_anchorGravity="center"
-            app:title="@string/LostandFound"
-            app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            app:titleMargin="16dp"
+            android:layout_height="match_parent"
+            android:background="@color/dark_green"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="pin"
+            >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/LostandFound"
+            android:fontFamily="@font/product_sans_bold"
+            android:textSize="24sp"
+            android:layout_margin="16dp"
+            android:textColor="@color/light_green"
             />
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,6 +48,7 @@
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add"
         android:contentDescription="@string/ReportLostItem"
+        android:backgroundTint="@color/light_green"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

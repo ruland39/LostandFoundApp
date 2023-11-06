@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".FeatureActivity"
+    tools:context=".LoginorRegisterActivity"
     android:paddingVertical="32dp"
     >
 
@@ -34,36 +34,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/feature_text"
-        app:layout_constraintBottom_toTopOf="@id/login_button"
-        android:padding="8dp"
-
+        app:layout_constraintBottom_toTopOf="@id/button_container"
         />
 
-    <Button
-        android:id="@+id/login_button"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/product_sans_bold"
-        android:text="@string/login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/feature_image"
-        />
 
-    <Button
-        android:id="@+id/register_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/product_sans_bold"
-        android:text="@string/register"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_button"
-        />
+        >
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginHorizontal="16dp"
+            android:fontFamily="@font/product_sans_bold"
+            android:text="@string/login"
+            android:textSize="18sp"
+            android:paddingVertical="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/feature_image"
+            />
+
+        <Button
+            android:id="@+id/register_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginHorizontal="16dp"
+            android:fontFamily="@font/product_sans_bold"
+            android:text="@string/register"
+            android:textSize="18sp"
+            android:paddingVertical="16dp"
+            android:textColor="@color/dark_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_button"
+            app:strokeColor="@color/dark_green"
+            app:strokeWidth="2dp"
+            android:layout_marginTop="8dp"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

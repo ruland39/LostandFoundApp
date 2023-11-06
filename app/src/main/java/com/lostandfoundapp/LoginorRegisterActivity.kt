@@ -24,10 +24,16 @@ class LoginorRegisterActivity : AppCompatActivity() {
 
     fun openLoginPage(){
         //TODO: Open Login Page
+        val intent = intent
+        intent.setClass(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     fun openRegisterPage(){
         //TODO: Open Register Page
+        val intent = intent
+        intent.setClass(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 
 }

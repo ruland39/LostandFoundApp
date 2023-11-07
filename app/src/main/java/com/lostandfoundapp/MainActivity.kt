@@ -1,5 +1,6 @@
 package com.lostandfoundapp
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,18 +10,25 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.lostandfoundapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var firebaseAuth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
         setSupportActionBar(binding.toolbar)
 
@@ -29,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Report Lost Item", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
     }
@@ -45,7 +53,23 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                Toast.makeText(this, "No Function :P", Toast.LENGTH_SHORT).show()
+                true
+            }
+
+            //Logout button of firebase
+            R.id.action_logout -> {
+                Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
+                firebaseAuth.signOut()
+
+                val intent = Intent(this, FeatureActivity::class.java)
+                startActivity(intent)
+
+                finish()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

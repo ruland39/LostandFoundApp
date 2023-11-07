@@ -80,4 +80,6 @@
     <string name="phone_number">Phone Number</string>
     <string name="create_account">Create Account</string>
     <string name="back">Back</string>
+    <string name="proceed_to_home">Proceed to Home</string>
+    <string name="loading">Loading...</string>
 </resources>

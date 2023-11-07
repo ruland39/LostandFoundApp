@@ -147,7 +147,7 @@
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
                 android:autofillHints="yes"
-                android:nextFocusDown="@id/email"
+                android:nextFocusDown="@id/phone_number"
                 android:textColorHint="@color/dark_green"
                 />
 
@@ -279,6 +279,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_container" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/progress_bar_container"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="32dp"
+        >
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/light_green"
+            app:indicatorInset="12dp"
+            app:indicatorSize="64dp"
+            app:trackColor="@color/light_green"
+            app:trackCornerRadius="24dp"
+            app:trackThickness="6dp"
+            android:layout_margin="32dp"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

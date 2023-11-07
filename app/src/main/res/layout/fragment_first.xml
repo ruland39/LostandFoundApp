@@ -66,8 +66,9 @@
                     android:checked="false"
                     android:background="?selectableItemBackground"
                     android:drawableEnd="@drawable/chevron_down"
-                    android:textOn=""
-                    android:textOff=""
+                    android:text="@null"
+                    android:textOn="@null"
+                    android:textOff="@null"
                     android:layout_weight="1"
                     android:paddingEnd="8dp"
                     />

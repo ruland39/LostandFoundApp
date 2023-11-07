@@ -29,6 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //Check if user is logged in
+        if(firebaseAuth.currentUser == null){
+            val intent = Intent(this, FeatureActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         setSupportActionBar(binding.toolbar)
 

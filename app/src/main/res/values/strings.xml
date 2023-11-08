@@ -83,4 +83,17 @@
     <string name="proceed_to_home">Proceed to Home</string>
     <string name="loading">Loading...</string>
     <string name="logout">Logout</string>
+    <string name="fill_up_the_item_details">Fill up the item details</string>
+    <string name="photo">Photo</string>
+    <string name="date_and_time">Date and Time</string>
+
+    <string-array name="category_array">
+        <item>Essentials</item>
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Accessories</item>
+        <item>Stationary</item>
+        <item>Miscellaneous</item>
+    </string-array>
+
 </resources>

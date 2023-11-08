@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Report Lost Item", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+
+            val intent = Intent(this, ReportLostItemFormActivity::class.java)
+            startActivity(intent)
+
         }
     }
 

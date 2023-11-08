@@ -49,10 +49,13 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
     implementation("androidx.navigation:navigation-fragment:2.7.4")
     implementation("androidx.navigation:navigation-ui:2.7.4")
+    implementation("com.google.android:flexbox:2.0.1")
+
 
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth:22.2.0")
+
 
 
     testImplementation("junit:junit:4.13.2")

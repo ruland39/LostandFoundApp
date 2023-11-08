@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportLostItemFormActivity">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_left"
+        android:background="@null"
+        android:contentDescription="@string/back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/report_text"
+        android:layout_margin="16dp"
+        />
+
+    <TextView
+        android:id="@+id/report_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ReportLostItem"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/back_button"
+        android:fontFamily="@font/product_sans_bold"
+        android:textSize="32sp"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="32dp"
+        />
+
+    <TextView
+        android:id="@+id/report_desc_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fill_up_the_item_details"
+        app:layout_constraintTop_toBottomOf="@id/report_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/light_grey"
+        android:textSize="16sp"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/input_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/report_desc_text"
+
+        tools:layout_editor_absoluteX="0dp">
+
+        <!--Photo Input-->
+        <!--        TODO: Change into upload picture instead of EditText-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="yes"
+                android:fontFamily="@font/product_sans_regular"
+                android:hint="@string/photo"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:inputType="number"
+                android:nextFocusDown="@id/name"
+                android:paddingVertical="16dp"
+                android:textColorHint="@color/dark_green"
+                android:textSize="18sp"
+                android:focusable="false"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Name Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="yes"
+                android:fontFamily="@font/product_sans_regular"
+                android:hint="@string/name"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:inputType="text"
+                android:nextFocusDown="@id/category"
+                android:paddingVertical="16dp"
+                android:textColorHint="@color/dark_green"
+                android:textSize="18sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Category Input-->
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:padding="16dp" />
+
+
+        <!--Date Time Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="yes"
+                android:fontFamily="@font/product_sans_regular"
+                android:hint="@string/date_and_time"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:inputType="datetime"
+                android:nextFocusDown="@id/date_time"
+                android:paddingVertical="16dp"
+                android:textColorHint="@color/dark_green"
+                android:textSize="18sp"
+                android:focusable="false"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Location Input-->
+        <!--        TODO: To be implemented, onclick opens up a map and user can select coordinate-->
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="yes"
+                android:fontFamily="@font/product_sans_regular"
+                android:hint="@string/location"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:inputType="text"
+                android:nextFocusDown="@id/details"
+                android:paddingVertical="16dp"
+                android:textColorHint="@color/dark_green"
+                android:textSize="18sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Details Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="?attr/textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="yes"
+                android:fontFamily="@font/product_sans_regular"
+                android:hint="@string/details"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:inputType="textPassword"
+                android:nextFocusDown="@id/next_button"
+                android:paddingVertical="16dp"
+                android:textColorHint="@color/dark_green"
+                android:textSize="18sp"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/product_sans_bold"
+        android:paddingVertical="16dp"
+        android:text="@string/submit"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_container" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

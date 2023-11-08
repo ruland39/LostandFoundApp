@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LostandFoundApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ReportLostItemFormActivity"
+            android:exported="false" />
         <activity
             android:name=".AccountSuccessActivity"
             android:exported="false" />
@@ -28,8 +34,7 @@
             android:name=".FeatureActivity"
             android:exported="true"
             android:label="@string/title_activity_feature"
-            android:theme="@style/Theme.LostandFoundApp">
-        </activity>
+            android:theme="@style/Theme.LostandFoundApp"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"

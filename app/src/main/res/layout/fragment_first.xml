@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FirstFragment"
-    android:padding="16dp"
     >
 
     <androidx.cardview.widget.CardView
@@ -60,7 +59,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatToggleButton
-                    android:id="@+id/togglebutton"
+                    android:id="@+id/dropdownbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
@@ -69,12 +68,20 @@
                     android:text="@null"
                     android:textOn="@null"
                     android:textOff="@null"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
+                    android:minWidth="32dp"
+                    android:minHeight="32dp"
+                    android:paddingEnd="4dp"
                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -150,6 +157,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

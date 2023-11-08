@@ -24,19 +24,28 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
     private val PICK_IMAGES_REQUEST_CODE = 123
 
-    val photo = binding.photo
-    val name = binding.name
-    val category = binding.category
-    val dateTime = binding.dateTime
-    val location = binding.location
-    val details = binding.details
-    val submit = binding.submit
+
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityReportLostItemFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        //Variables Declaration
+        val photo = binding.photo
+        val name = binding.name
+        val category = binding.category
+        val dateTime = binding.dateTime
+        val location = binding.location
+        val details = binding.details
+        val submit = binding.submit
 
         //PHOTO UPLOAD
         binding.photo.setOnClickListener {
@@ -142,7 +151,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     val imageUri = data.clipData!!.getItemAt(i).uri
                     //do something with the image (save it to some directory or whatever you need to do with it here)
                     //replace edittext to the selected image
-                    photo.setText(imageUri.toString())
+                    binding.photo.setText(imageUri.toString())
                 }
             } else if (data?.data != null) {
                 val imagePath = data.data!!.path

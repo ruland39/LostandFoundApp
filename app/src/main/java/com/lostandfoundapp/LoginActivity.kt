@@ -31,14 +31,14 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
 
+
         binding.loginButton.setOnClickListener {
             val email = binding.email.text.toString()
             val password = binding.password.text.toString()
 
-            binding.loginButton.isEnabled = false
-
             if(email.isNotEmpty() && password.isNotEmpty()){
 
+                //TODO: Circular Progress Bar not running
                 showProgressBar()
 
                 firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -73,7 +73,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.loginButton.isEnabled = false
-
         binding.email.addTextChangedListener(textWatcher)
         binding.password.addTextChangedListener(textWatcher)
 
@@ -85,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             val email = findViewById<EditText>(R.id.email)
             val password = findViewById<EditText>(R.id.password)
 

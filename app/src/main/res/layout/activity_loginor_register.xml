@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@id/feature_image"
         android:fontFamily="@font/product_sans_bold"
         android:textSize="32sp"
-        android:paddingHorizontal="64dp"
+        android:paddingHorizontal="32dp"
         />
 
     <ImageView

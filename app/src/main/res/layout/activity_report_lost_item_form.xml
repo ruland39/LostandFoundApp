@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/report_text"
         android:layout_margin="16dp"
+        android:padding="8dp"
         />
 
     <TextView

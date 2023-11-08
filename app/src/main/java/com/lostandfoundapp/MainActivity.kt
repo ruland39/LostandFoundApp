@@ -10,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.lostandfoundapp.databinding.ActivityMainBinding
@@ -43,9 +44,14 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        binding.fab.setOnLongClickListener {
+
+            Snackbar.make(it, "Report Lost Item", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+            true
+        }
+
         binding.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Report Lost Item", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
 
             val intent = Intent(this, ReportLostItemFormActivity::class.java)
             startActivity(intent)

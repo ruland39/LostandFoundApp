@@ -1,7 +1,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.LostandFoundApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.LostandFoundApp" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/light_green</item>
+        <item name="colorPrimaryVariant">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/dark_green</item>
+        <item name="colorSecondary">@color/dark_green</item>
+        <item name="colorSecondaryVariant">@color/light_green</item>
+        <item name="colorOnSecondary">@color/light_green</item>
+        <item name="android:statusBarColor">@color/dark_green</item>
     </style>
+
+    <style name="Theme.LostandFoundApp" parent="Base.Theme.LostandFoundApp">
+        <item name="colorPrimary">@color/light_green</item>
+        <item name="colorPrimaryVariant">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/dark_green</item>
+        <item name="colorSecondary">@color/dark_green</item>
+        <item name="colorSecondaryVariant">@color/light_green</item>
+        <item name="colorOnSecondary">@color/light_green</item>
+    </style>
+
+    <style name="primaryButtonStyling">
+        <item name="android:background">@color/light_green</item>
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:fontFamily">@font/product_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingVertical">16dp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:buttonCornerRadius">16dp</item>
+
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
 </resources>

@@ -71,8 +71,9 @@ class MainActivity : AppCompatActivity() {
 
             //Logout button of firebase
             R.id.action_logout -> {
-                Toast.makeText(this, "Logging Out", Toast.LENGTH_SHORT).show()
+
                 firebaseAuth.signOut()
+                Toast.makeText(this, "Log Out Successful", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, FeatureActivity::class.java)
                 startActivity(intent)

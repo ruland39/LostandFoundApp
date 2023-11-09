@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.TimePicker
+import android.widget.Toast
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -70,7 +71,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
-                    binding.name.error = "Please enter name"
+                    binding.name.error = "Please Enter Name"
                 } else {
                     binding.name.error = null
                 }
@@ -126,7 +127,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                         },
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),
-                        true
+                        false
                     )
                     timePickerDialog.show()
                 },
@@ -137,6 +138,179 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             datePickerDialog.datePicker.minDate = System.currentTimeMillis()
             datePickerDialog.show()
         }
+
+        // LOCATION
+        binding.location.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.location.error = "Please Enter Location"
+                } else {
+                    binding.location.error = null
+                }
+            }
+        })
+
+        //TODO: Use Google Maps API to get Location Coordinate
+
+        // DETAILS
+        binding.details.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.details.error = "Please Enter Details"
+                } else {
+                    binding.details.error = null
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        //TODO: Set Submit button to disabled, if all fields are filled, then enable button
+
+        binding.submit.isEnabled = false
+
+        binding.photo.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        binding.name.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                if (pos == 0) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback.
+            }
+        }
+
+        binding.dateTime.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        binding.location.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+        binding.details.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isEmpty()) {
+                    binding.submit.isEnabled = false
+                } else {
+                    binding.submit.isEnabled = true
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
+
+        // SUBMIT
+        binding.submit.setOnClickListener {
+
+            if (photo.text.toString().isEmpty()) {
+                photo.error = "Please Upload Photo"
+                Toast.makeText(this, "Please Upload Photo", Toast.LENGTH_SHORT).show()
+
+
+            } else if (name.text.toString().isEmpty()) {
+                name.error = "Please Enter Name"
+                Toast.makeText(this, "Please Enter Name", Toast.LENGTH_SHORT).show()
+
+            } else if (category.selectedItem.toString().isEmpty()) {
+//                category.error = "Please Select Category"
+                Toast.makeText(this, "Please Select Category", Toast.LENGTH_SHORT).show()
+
+            } else if (dateTime.text.toString().isEmpty()) {
+                dateTime.error = "Please Select Date and Time"
+                Toast.makeText(this, "Please Select Date and Time", Toast.LENGTH_SHORT).show()
+
+
+            } else if (location.text.toString().isEmpty()) {
+                location.error = "Please Enter Location"
+                Toast.makeText(this, "Please Enter Location", Toast.LENGTH_SHORT).show()
+
+
+            } else if (details.text.toString().isEmpty()) {
+                details.error = "Please Enter Details"
+                Toast.makeText(this, "Please Enter Details", Toast.LENGTH_SHORT).show()
+
+
+            } else {
+                //TODO: Upload to Firebase
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            }
 
     }
 

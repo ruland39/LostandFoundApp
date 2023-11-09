@@ -49,6 +49,7 @@
         app:srcCompat="@android:drawable/ic_input_add"
         android:contentDescription="@string/ReportLostItem"
         android:backgroundTint="@color/light_green"
+        android:foregroundTint="@color/light_green"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

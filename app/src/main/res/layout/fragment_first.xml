@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".FirstFragment"
-    android:layout_marginTop="8dp"
     android:layout_centerHorizontal="true"
     >
 
@@ -17,8 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingHorizontal="8dp"
         android:foregroundGravity="center"
+        android:layout_gravity="center"
         />
 
 

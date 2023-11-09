@@ -36,4 +36,11 @@
         <item name="cornerSize">8dp</item>
     </style>
 
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:fontFamily">@font/product_sans_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingVertical">16dp</item>
+    </style>
+
 </resources>

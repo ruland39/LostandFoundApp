@@ -15,7 +15,9 @@ import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.TimePicker
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class ReportLostItemFormActivity : AppCompatActivity() {
 
@@ -119,8 +121,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                         this,
                         { _: TimePicker, hourOfDay: Int, minute: Int ->
                             calendar.set(year, month, dayOfMonth, hourOfDay, minute)
-                            val dateFormat = "dd/MM/yyyy HH:mm"
-                            val formattedDate = dateFormat.format(calendar.time)
+                            val formattedDate = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(calendar.time)
                             binding.dateTime.setText(formattedDate)
                         },
                         calendar.get(Calendar.HOUR_OF_DAY),

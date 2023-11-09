@@ -54,9 +54,10 @@
         android:id="@+id/input_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginVertical="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/report_desc_text"
+        app:layout_constraintBottom_toTopOf="@+id/submit"
 
         tools:layout_editor_absoluteX="0dp">
 
@@ -136,7 +137,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:padding="16dp" />
+            android:padding="16dp"
+            />
 
 
         <!--Date Time Input-->
@@ -233,9 +235,12 @@
                 android:autofillHints="yes"
                 android:fontFamily="@font/product_sans_regular"
                 android:hint="@string/details"
+                android:gravity="top"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
-                android:inputType="textPassword"
+                android:singleLine="false"
+                android:minHeight="120dp"
+                android:inputType="textMultiLine"
                 android:nextFocusDown="@id/next_button"
                 android:paddingVertical="16dp"
                 android:textColorHint="@color/dark_green"

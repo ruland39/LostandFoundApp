@@ -1,13 +1,14 @@
 package com.lostandfoundapp
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lostandfoundapp.databinding.FragmentFirstBinding
 
 /**
@@ -32,56 +33,112 @@ class FirstFragment : Fragment() {
 
     }
 
+    //TODO: Add functionalities to the item_Card
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // DROPDOWN FUNCTION
-        _binding?.dropdownbutton?.setOnCheckedChangeListener { _, isChecked ->
-            // Rotate the icon
-            val rotationAngle = if (isChecked) 180f else 0f
-            _binding!!.dropdownbutton.animate().rotation(rotationAngle).start()
 
-            if (isChecked) {
-                // Handle the toggle button when it is checked/on
-//                Toast.makeText(context, "ON", Toast.LENGTH_SHORT).show()
-                // Show details with fade-in animation
-                fadeIn(_binding!!.detailsContainer)
-            } else {
-                // Handle the toggle button when it is unchecked/off
-//                Toast.makeText(context, "OFF", Toast.LENGTH_SHORT).show()
-                // Hide details with fade-out animation
-                fadeOut(_binding!!.detailsContainer)
-            }
-        }
+        // Dummy data for testing
+        val cardViewItems = listOf(
+            CardViewItem(
+                R.drawable.screenshot_2022_05_26_180310,
+                "Item Name",
+                "Item Category",
+                "Date and Time",
+                "Location",
+                "Item Details",
+            ),
 
-        binding.claimButton.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+            CardViewItem(
+                R.drawable.ic_launcher_foreground,
+                "Lost and Found",
+                "Item Category",
+                "Date and Time",
+                "Location",
+                "Item Details",
+            ),
 
+            CardViewItem(
+                R.drawable.feature_one,
+                "Basketball People",
+                "Item Category",
+                "Date and Time",
+                "Location",
+                "Item Details",
+            ),
+
+            CardViewItem(
+                R.drawable.feature_two,
+                "KFC People",
+                "Item Category",
+                "Date and Time",
+                "Location",
+                "Item Details",
+            ),
+
+            CardViewItem(
+                R.drawable.feature_three,
+                "Shadow People",
+                "Item Category",
+                "Date and Time",
+                "Location",
+                "Item Details",
+            ),
+        )
+
+
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.itemcardcontainer)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = CardViewAdapter(cardViewItems)
     }
 
-    private fun fadeIn(view: View) {
-        if (!isDetailsVisible) {
-            val animator = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
-            animator.duration = 300 // Adjust the duration of the fade-in animation as needed
-            animator.start()
-            view.visibility = View.VISIBLE
-            isDetailsVisible = true
+
+    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
+
+
+    data class CardViewItem(
+        val itemPhoto: Int,
+        val itemName: String,
+        val itemCategory: String,
+        val itemDateandTime: String,
+        val itemLocation: String,
+        val itemDetails: String,
+    )
+
+    class CardViewAdapter(private val cardViewItems: List<CardViewItem>) :
+        RecyclerView.Adapter<CardViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
+            return CardViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+            val item = cardViewItems[position]
+            holder.bind(item)
+        }
+
+        override fun getItemCount(): Int {
+            return cardViewItems.size
         }
     }
 
-    private fun fadeOut(view: View) {
-        if (isDetailsVisible) {
-            val animator = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f)
-            animator.duration = 300 // Adjust the duration of the fade-out animation as needed
-            animator.start()
-            view.visibility = View.GONE
-            isDetailsVisible = false
+    class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: CardViewItem) {
+            // Bind data to CardView elements here
+
+            itemView.findViewById<ImageView>(R.id.ItemPhoto).setImageResource(item.itemPhoto)
+            itemView.findViewById<TextView>(R.id.ItemName).text = item.itemName
+            itemView.findViewById<TextView>(R.id.ItemCategory).text = item.itemCategory
+            itemView.findViewById<TextView>(R.id.ItemCategory).text = item.itemCategory
+            itemView.findViewById<TextView>(R.id.ItemDateandTime).text = item.itemDateandTime
+            itemView.findViewById<TextView>(R.id.ItemDetails).text = item.itemDetails
+            // Set the image resource using Glide or Picasso for better performance
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-}

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ItemPhoto"
+                android:layout_width="296dp"
+                android:layout_height="148dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:src="@drawable/screenshot_2022_05_26_180310"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/LostItemImage"
+                />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/ItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemName"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    />
+
+                <androidx.appcompat.widget.AppCompatToggleButton
+                    android:id="@+id/dropdownbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:background="?selectableItemBackground"
+                    android:drawableEnd="@drawable/chevron_down"
+                    android:text="@null"
+                    android:textOn="@null"
+                    android:textOff="@null"
+                    android:minWidth="32dp"
+                    android:minHeight="32dp"
+                    android:paddingEnd="4dp"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:layout_marginTop="16dp"
+
+                    />
+                <TextView
+                    android:id="@+id/ItemCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemCategory"
+                    android:fontFamily="@font/product_sans_regular"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dateandtime"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:layout_marginTop="8dp"
+                    />
+                <TextView
+                    android:id="@+id/ItemDateandTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemDateandTime"
+                    android:fontFamily="@font/product_sans_regular"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/location"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:layout_marginTop="8dp"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemLocation"
+                    android:fontFamily="@font/product_sans_regular"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/details"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:layout_marginTop="8dp"
+
+                    />
+                <TextView
+                    android:id="@+id/ItemDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemDetails"
+                    android:fontFamily="@font/product_sans_regular"
+                    />
+
+                <Button
+                    android:id="@+id/claim_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ClaimItem"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>

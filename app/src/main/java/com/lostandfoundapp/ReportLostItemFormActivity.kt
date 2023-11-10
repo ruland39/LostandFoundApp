@@ -24,7 +24,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReportLostItemFormBinding
 
-
     private val PICK_IMAGES_REQUEST_CODE = 123
 
 
@@ -181,11 +180,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.photo.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isEmpty()) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -197,11 +192,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isEmpty()) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -213,11 +204,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-                if (pos == 0) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = pos != 0
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -227,11 +214,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.dateTime.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isEmpty()) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -243,11 +226,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.location.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isEmpty()) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -259,11 +238,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.details.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (s.toString().isEmpty()) {
-                    binding.submit.isEnabled = false
-                } else {
-                    binding.submit.isEnabled = true
-                }
+                binding.submit.isEnabled = s.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

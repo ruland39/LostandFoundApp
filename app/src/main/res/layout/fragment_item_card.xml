@@ -21,7 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             >
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -153,7 +156,6 @@
                     android:text="@string/ClaimItem"
                     android:fontFamily="@font/product_sans_bold"
                     android:layout_marginTop="16dp"
-                    android:layout_gravity="center"
                     />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

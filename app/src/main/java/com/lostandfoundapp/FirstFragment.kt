@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lostandfoundapp.databinding.FragmentFirstBinding
@@ -37,7 +40,6 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Dummy data for testing
         val cardViewItems = listOf(
             CardViewItem(
@@ -59,8 +61,35 @@ class FirstFragment : Fragment() {
             ),
 
             CardViewItem(
+                R.drawable.iphone,
+                "iPhone 15 Pro Max",
+                "Electronics",
+                "24/11/2023 07:33 PM",
+                "The Core",
+                "Metallic Grey iPhone 15 Pro Max with a black case",
+            ),
+
+            CardViewItem(
+                R.drawable.wallet,
+                "Brown Leather Wallet",
+                "Accessories",
+                "09/11/2023 09:42 PM",
+                "Cafeteria",
+                "Brown Leather Wallet with a few cards and a picture of a dog",
+            ),
+
+            CardViewItem(
+                R.drawable.roomkey,
+                "Room Keys",
+                "Essentials",
+                "10/11/2023 03:19 PM",
+                "Library",
+                "Room Keys with a house keychain",
+            ),
+
+            CardViewItem(
                 R.drawable.feature_one,
-                "Basketball People",
+                "Feature One",
                 "Item Category",
                 "Date and Time",
                 "Location",
@@ -69,7 +98,7 @@ class FirstFragment : Fragment() {
 
             CardViewItem(
                 R.drawable.feature_two,
-                "KFC People",
+                "Feature Two",
                 "Item Category",
                 "Date and Time",
                 "Location",
@@ -78,7 +107,7 @@ class FirstFragment : Fragment() {
 
             CardViewItem(
                 R.drawable.feature_three,
-                "Shadow People",
+                "Feature Three",
                 "Item Category",
                 "Date and Time",
                 "Location",
@@ -115,7 +144,7 @@ class FirstFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
             val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.fragment_item_card, parent, false)
             return CardViewHolder(view)
         }
 
@@ -131,14 +160,41 @@ class FirstFragment : Fragment() {
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: CardViewItem) {
-            // Bind data to CardView elements here
 
+            // Bind data to CardView elements here
+            //TODO: Add Multiple Images as Carousel in Item Photo
             itemView.findViewById<ImageView>(R.id.ItemPhoto).setImageResource(item.itemPhoto)
             itemView.findViewById<TextView>(R.id.ItemName).text = item.itemName
             itemView.findViewById<TextView>(R.id.ItemCategory).text = item.itemCategory
             itemView.findViewById<TextView>(R.id.ItemCategory).text = item.itemCategory
             itemView.findViewById<TextView>(R.id.ItemDateandTime).text = item.itemDateandTime
             itemView.findViewById<TextView>(R.id.ItemDetails).text = item.itemDetails
-            // Set the image resource using Glide or Picasso for better performance
+
+            //Buttons
+            val detailsContainer = itemView.findViewById<View>(R.id.details_container)
+            val dropDownButton = itemView.findViewById<ToggleButton>(R.id.dropdownbutton)
+            val claimButton = itemView.findViewById<Button>(R.id.claim_button)
+
+
+
+            dropDownButton.setOnClickListener{
+
+
+                if(dropDownButton.isChecked){
+                    detailsContainer.visibility = View.VISIBLE
+                    dropDownButton.animate().rotationBy(180f).setDuration(300).start()
+
+                }else{
+                    detailsContainer.visibility = View.GONE
+                    dropDownButton.animate().rotationBy(-180f).setDuration(300).start()
+
+                }
+            }
+
+            claimButton.setOnClickListener {
+                Toast.makeText(itemView.context, item.itemName + " has been claimed", Toast.LENGTH_SHORT).show()
+            }
+
+
         }
     }

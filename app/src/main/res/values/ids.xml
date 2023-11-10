@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ItemName" type="id" />
+    <item name="dropdownbutton" type="id" />
+    <item name="details_container" type="id" />
+    <item name="ItemCategory" type="id" />
+    <item name="ItemDateandTime" type="id" />
+    <item name="ItemDetails" type="id" />
+    <item name="claim_button" type="id" />
+</resources>

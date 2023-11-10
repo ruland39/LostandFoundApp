@@ -1,5 +1,6 @@
 package com.lostandfoundapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -193,6 +194,10 @@ class FirstFragment : Fragment() {
 
             claimButton.setOnClickListener {
                 Toast.makeText(itemView.context, item.itemName + " has been claimed", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(itemView.context, ClaimProceedActivity::class.java)
+                itemView.context.startActivity(intent)
+
             }
 
 

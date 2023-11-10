@@ -36,6 +36,10 @@
         <item name="cornerSize">8dp</item>
     </style>
 
+    <style name="roundedCorner" parent="">
+        <item name="android:buttonCornerRadius">16dp</item>
+    </style>
+
     <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner.DropDown">
         <item name="android:background">@drawable/spinner_background</item>
         <item name="android:fontFamily">@font/product_sans_regular</item>

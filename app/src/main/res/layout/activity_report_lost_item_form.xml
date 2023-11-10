@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ReportLostItem"
+        android:textColor="@color/dark_grey"
         app:layout_constraintTop_toBottomOf="@id/back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,6 @@
         android:textColor="@color/light_grey"
         android:textSize="16sp"
         android:paddingHorizontal="16dp"
-        android:layout_marginTop="8dp"
         />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -54,45 +54,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/report_desc_text"
         tools:layout_editor_absoluteX="0dp">
 
-        <!--Photo Input-->
-        <!--        TODO: Change into upload picture instead of EditText-->
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="?attr/textInputOutlinedStyle"
+        <TextView
+            android:id="@+id/upload_photo_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:boxStrokeColor="@color/dark_green"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp">
+            android:fontFamily="@font/product_sans_bold"
+            android:paddingHorizontal="32dp"
+            android:text="@string/upload_photo"
+            android:textColor="@color/light_grey"
+            android:textSize="20sp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:autofillHints="yes"
-                android:fontFamily="@font/product_sans_regular"
-                android:hint="@string/photo"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="yes"
-                android:inputType="number"
-                android:nextFocusDown="@id/name"
-                android:paddingVertical="16dp"
-                android:textColorHint="@color/dark_green"
-                android:textSize="18sp"
-                android:focusable="false"
-                />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/add_photo"
+            android:layout_width="296dp"
+            android:layout_height="148dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/add_photo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/addphoto"
+            app:shapeAppearanceOverlay="@style/roundedImageView" />
 
         <!--Name Input-->
 
@@ -115,7 +102,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:autofillHints="yes"
                 android:fontFamily="@font/product_sans_regular"
-                android:hint="@string/name"
+                android:hint="Item Name"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
                 android:inputType="text"
@@ -134,10 +121,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="8dp"
             android:layout_marginTop="4dp"
-            />
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp" />
 
 
         <!--Date Time Input-->
@@ -160,17 +146,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:autofillHints="yes"
+                android:focusable="false"
                 android:fontFamily="@font/product_sans_regular"
-                android:hint="@string/date_and_time"
+                android:hint="@string/date_and_time_found"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
                 android:inputType="datetime"
                 android:nextFocusDown="@id/date_time"
                 android:paddingVertical="16dp"
                 android:textColorHint="@color/dark_green"
-                android:textSize="18sp"
-                android:focusable="false"
-                />
+                android:textSize="18sp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -189,8 +174,7 @@
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeColor="@color/dark_green"
             app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
-            >
+            app:boxStrokeWidthFocused="2dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/location"
@@ -199,7 +183,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:autofillHints="yes"
                 android:fontFamily="@font/product_sans_regular"
-                android:hint="@string/location"
+                android:hint="@string/location_found"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
                 android:inputType="text"
@@ -223,8 +207,7 @@
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeColor="@color/dark_green"
             app:boxStrokeWidth="1dp"
-            app:boxStrokeWidthFocused="2dp"
-            >
+            app:boxStrokeWidthFocused="2dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/details"
@@ -233,18 +216,17 @@
                 android:layout_marginHorizontal="16dp"
                 android:autofillHints="yes"
                 android:fontFamily="@font/product_sans_regular"
-                android:hint="@string/details"
                 android:gravity="top"
+                android:hint="@string/details_of_item"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="yes"
-                android:singleLine="false"
-                android:minHeight="120dp"
                 android:inputType="textMultiLine"
+                android:minHeight="120dp"
                 android:nextFocusDown="@id/next_button"
                 android:paddingVertical="16dp"
+                android:singleLine="false"
                 android:textColorHint="@color/dark_green"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>

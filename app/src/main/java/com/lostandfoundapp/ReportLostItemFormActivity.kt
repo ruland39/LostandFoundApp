@@ -15,6 +15,7 @@ import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -23,24 +24,21 @@ import java.util.Locale
 class ReportLostItemFormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReportLostItemFormBinding
-
     private val PICK_IMAGES_REQUEST_CODE = 123
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReportLostItemFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val defaultPhoto = ContextCompat.getDrawable(this, R.drawable.addphoto)
 
         binding.backButton.setOnClickListener {
             finish()
         }
 
         //Variables Declaration
-        val photo = binding.photo
+        val photo = binding.addPhoto
         val name = binding.name
         val category = binding.category
         val dateTime = binding.dateTime
@@ -49,10 +47,10 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         val submit = binding.submit
 
         //PHOTO UPLOAD
-        binding.photo.setOnClickListener {
+        binding.addPhoto.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGES_REQUEST_CODE)
         }
 
@@ -177,17 +175,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         binding.submit.isEnabled = false
 
-        binding.photo.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                binding.submit.isEnabled = s.toString().isNotEmpty()
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
 
         binding.name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -251,10 +238,9 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         // SUBMIT
         binding.submit.setOnClickListener {
 
-            if (photo.text.toString().isEmpty()) {
-                photo.error = "Please Upload Photo"
+            //change to if photo is default image
+            if (binding.addPhoto.drawable == defaultPhoto) {
                 Toast.makeText(this, "Please Upload Photo", Toast.LENGTH_SHORT).show()
-
 
             } else if (name.text.toString().isEmpty()) {
                 name.error = "Please Enter Name"
@@ -289,24 +275,14 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     }
 
     //Photo Upload Function
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data?.clipData != null) {
-                val count = data.clipData!!.itemCount
-                for (i in 0 until count) {
-                    val imageUri = data.clipData!!.getItemAt(i).uri
-                    //do something with the image (save it to some directory or whatever you need to do with it here)
-                    //replace edittext to the selected image
-                    binding.photo.setText(imageUri.toString())
-                }
-            } else if (data?.data != null) {
-                val imagePath = data.data!!.path
-                //do something with the image (save it to some directory or whatever you need to do with it here)
-            }
+        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
+            val imageUri = data.data
+            binding.addPhoto.setImageURI(imageUri)
         }
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.lostandfoundapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -19,7 +20,11 @@ class ClaimProceedActivity : AppCompatActivity() {
         }
 
         binding.proceedButton.setOnClickListener {
-            Toast.makeText(this, "Claim Successful", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Claim Successful", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, ClaimItemForm::class.java)
+            startActivity(intent)
+
         }
 
 

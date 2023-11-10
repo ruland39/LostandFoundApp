@@ -104,5 +104,12 @@
     <string name="proceed">Proceed</string>
     <string name="location_pin">📍Location</string>
     <string name="security_office_on_the_1st_floor_of_sa_student_s_association_building">Security Office on the 1st Floor of SA (Student’s Association) Building</string>
+    <string name="claim_lost_item">Claim Lost Item</string>
+    <string name="check_your_personal_details_before_proceeding_to_claim_the_item">Check your personal details before proceeding to claim the item</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="details_of_item">Details of Item</string>
+    <string name="date_and_time_found">Date and Time Found</string>
+    <string name="location_found">Location Found</string>
 
 </resources>

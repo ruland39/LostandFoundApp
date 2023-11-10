@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ClaimItemForm"
+    android:layout_gravity="center"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@null"
+        android:contentDescription="@string/back"
+        android:padding="8dp"
+        android:src="@drawable/arrow_left"
+        app:layout_constraintBottom_toTopOf="@+id/feature_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/feature_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/claim_lost_item"
+        app:layout_constraintTop_toTopOf="@id/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/report_desc_text"
+        android:fontFamily="@font/product_sans_bold"
+        android:textSize="32sp"
+        android:paddingHorizontal="32dp"
+        />
+
+    <TextView
+        android:id="@+id/report_desc_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/check_your_personal_details_before_proceeding_to_claim_the_item"
+        app:layout_constraintTop_toBottomOf="@id/feature_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/product_sans_regular"
+        android:textColor="@color/light_grey"
+        android:textSize="16sp"
+        android:paddingHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/report_desc_text"
+        android:layout_marginTop="16dp"
+        >
+
+        <!--ID Number Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/textInputOutlinedStyle"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/id_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/id_number"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="false"
+                android:fontFamily="@font/product_sans_regular"
+                android:textSize="18sp"
+                android:paddingVertical="16dp"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:autofillHints="yes"
+                android:nextFocusDown="@id/name"
+                android:textColorHint="@color/dark_green"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Name Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/textInputOutlinedStyle"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/name"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="false"
+                android:fontFamily="@font/product_sans_regular"
+                android:textSize="18sp"
+                android:paddingVertical="16dp"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:autofillHints="yes"
+                android:nextFocusDown="@id/email"
+                android:textColorHint="@color/dark_green"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Email Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/textInputOutlinedStyle"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/email"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="false"
+                android:fontFamily="@font/product_sans_regular"
+                android:textSize="18sp"
+                android:paddingVertical="16dp"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:autofillHints="yes"
+                android:nextFocusDown="@id/phone_number"
+                android:textColorHint="@color/dark_green"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--Phoone Number Input-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/textInputOutlinedStyle"
+            app:boxStrokeColor="@color/dark_green"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/phone_number"
+                android:inputType="none"
+                android:focusable="false"
+                android:clickable="false"
+                android:fontFamily="@font/product_sans_regular"
+                android:textSize="18sp"
+                android:paddingVertical="16dp"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="yes"
+                android:autofillHints="yes"
+                android:nextFocusDown="@id/password"
+                android:textColorHint="@color/dark_green"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/linebreak"
+            android:layout_gravity="center"
+            android:layout_marginVertical="24dp"
+            />
+
+        <TextView
+            android:id="@+id/upload_photo_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_photo"
+            android:fontFamily="@font/product_sans_bold"
+            android:textColor="@color/light_grey"
+            android:textSize="20sp"
+            android:paddingHorizontal="32dp"
+            />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/add_photo"
+            android:layout_width="296dp"
+            android:layout_height="148dp"
+            android:src="@drawable/addphoto"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            android:layout_marginVertical="8dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/add_photo"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginHorizontal="16dp"
+            android:fontFamily="@font/product_sans_bold"
+            android:text="@string/submit"
+            android:textSize="18sp"
+            android:paddingVertical="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/feature_image"
+            android:layout_marginTop="16dp"
+            />
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

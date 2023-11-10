@@ -30,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.registerButton.setOnClickListener {
+
             val idNumber = binding.idNumber.text.toString()
             val name = binding.name.text.toString()
             val email = binding.email.text.toString()
@@ -77,9 +78,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.backButton.setOnClickListener() {
-            val intent = intent
-            intent.setClass(this, LoginorRegisterActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.registerButton.isEnabled = false

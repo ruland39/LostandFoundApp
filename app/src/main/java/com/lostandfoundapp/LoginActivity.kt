@@ -67,9 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.backButton.setOnClickListener{
-            val intent = intent
-            intent.setClass(this, LoginorRegisterActivity::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.loginButton.isEnabled = false

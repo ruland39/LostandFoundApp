@@ -25,7 +25,6 @@ class FirstFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var isDetailsVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +36,6 @@ class FirstFragment : Fragment() {
 
     }
 
-    //TODO: Add functionalities to the item_Card
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -172,11 +170,16 @@ class FirstFragment : Fragment() {
             itemView.findViewById<TextView>(R.id.ItemDetails).text = item.itemDetails
 
             //Buttons
+            val itemPhoto = itemView.findViewById<ImageView>(R.id.ItemPhoto)
             val detailsContainer = itemView.findViewById<View>(R.id.details_container)
             val dropDownButton = itemView.findViewById<ToggleButton>(R.id.dropdownbutton)
             val claimButton = itemView.findViewById<Button>(R.id.claim_button)
 
 
+            itemPhoto.setOnClickListener{
+                //TODO: enlarge the image as preview PHOTOVIEW
+                Toast.makeText(itemView.context, "Meow", Toast.LENGTH_SHORT).show()
+            }
 
             dropDownButton.setOnClickListener{
 
@@ -193,7 +196,7 @@ class FirstFragment : Fragment() {
             }
 
             claimButton.setOnClickListener {
-                Toast.makeText(itemView.context, item.itemName + " has been claimed", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(itemView.context, item.itemName + " has been claimed", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(itemView.context, ClaimProceedActivity::class.java)
                 itemView.context.startActivity(intent)

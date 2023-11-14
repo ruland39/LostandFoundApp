@@ -5,6 +5,9 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -18,6 +21,7 @@ import android.widget.Spinner
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -261,7 +265,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 name.error = "Please Enter Name"
                 Toast.makeText(this, "Please Enter Name", Toast.LENGTH_SHORT).show()
 
-            } else if (category.selectedItem.toString().isEmpty()) {
+            } else if (category.selectedItem.toString() == resources.getString(R.string.category)) {
 //                category.error = "Please Select Category"
                 Toast.makeText(this, "Please Select Category", Toast.LENGTH_SHORT).show()
 
@@ -303,17 +307,26 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     "details" to lostItem.details
                 )
 
-                // Add a new document with a generated ID
-                db.collection("items")
-                    .add(item)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w("TAG", "Error adding document", e)
-                    }
-                Toast.makeText(this, "Item Reported", Toast.LENGTH_SHORT).show()
-
+                //check if there is internet connection
+                if(isNetworkConnected(this)){
+                    //yes intenet
+                    // Add a new document with a generated ID
+                    db.collection("items")
+                        .add(item)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
+                            Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w("TAG", "Error adding document", e)
+                            Toast.makeText(this, "Failed to save data to Firebase", Toast.LENGTH_SHORT).show()
+                        }
+                }
+                else{
+                    //no internet
+                    saveDataLocally(lostItem)
+                    Toast.makeText(this, "No Internet Connection. Item saved locally. Item will be uploaded once there is Internet Connection", Toast.LENGTH_SHORT).show()
+                }
 
 
                 // Save data locally
@@ -352,12 +365,12 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 
     // Save data locally
-//    private fun saveDataLocally(lostItem: LostItem) {
-//        val sharedPreferences = getSharedPreferences("LostItemPrefs", Context.MODE_PRIVATE)
-//        val gson = Gson()
-//        val json = gson.toJson(lostItem)
-//        sharedPreferences.edit().putString("lostItem", json).apply()
-//    }
+    private fun saveDataLocally(lostItem: LostItem) {
+        val sharedPreferences = getSharedPreferences("LostItemPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = gson.toJson(lostItem)
+        sharedPreferences.edit().putString("lostItem", json).apply()
+    }
 
     // Save data to Firebase
 //    private fun saveDataToFirebase(lostItem: LostItem) {
@@ -380,6 +393,22 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 //                }
 //        }
 //    }
+
+    fun isNetworkConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
+            return capabilities != null &&
+                    (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
 
 
 

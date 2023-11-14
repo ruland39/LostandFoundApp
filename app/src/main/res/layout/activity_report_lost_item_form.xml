@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/product_sans_bold"
-            android:paddingHorizontal="32dp"
+            android:paddingHorizontal="16dp"
             android:text="@string/upload_photo"
             android:textColor="@color/light_grey"
             android:textSize="20sp" />

@@ -111,5 +111,11 @@
     <string name="details_of_item">Details of Item</string>
     <string name="date_and_time_found">Date and Time Found</string>
     <string name="location_found">Location Found</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="lostandfound_is_an_application_designed_and_built_from_scratch_for_the_purpose_of_completing_the_module_mobile_device_programming_comp3040_this_app_is_designed_to_help_people_find_their_lost_items_and_also_help_people_who_found_items_to_return_them_to_their_owners_this_app_is_built_using_kotlin_and_google_firebase_to_store_the_data">LostandFound is an application designed and built from scratch for the purpose of completing the module Mobile Device Programming COMP3040. This app is designed to help people find their lost items and also help people who found items to return them to their owners. This app is built using Kotlin and Google Firebase to store the data.</string>
+    <string name="about_lostandfound">About LostandFound</string>
+    <string name="security_nottingham_edu_my">security@nottingham.edu.my</string>
+    <string name="_603_8924_8065">+603 8924 8065</string>
 
 </resources>

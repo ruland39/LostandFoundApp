@@ -1,6 +1,8 @@
 package com.lostandfoundapp
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +13,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.lostandfoundapp.databinding.ActivityMainBinding
 
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
 
             val intent = Intent(this, ReportLostItemFormActivity::class.java)
             startActivity(intent)
@@ -70,6 +75,56 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
+            R.id.action_help -> {
+
+                val dialogView = layoutInflater.inflate(R.layout.dialog_help, null)
+
+                MaterialAlertDialogBuilder(this)
+                    .setView(dialogView)
+                    .show()
+
+                //button declaration
+                val emailSecurity = dialogView.findViewById<TextView>(R.id.security_email)
+                val phoneSecurity = dialogView.findViewById<TextView>(R.id.security_phone_number)
+
+
+//mail to
+                emailSecurity.setOnClickListener {
+                    val emailIntent = Intent(Intent.ACTION_SENDTO)
+                    emailIntent.data = Uri.parse("mailto:" + Uri.encode(resources.getString(R.string.security_nottingham_edu_my)))
+
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "This is the body of the email")
+
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, "Send email"))
+                    } catch (e: ActivityNotFoundException) {
+                        Toast.makeText(this, "No email app installed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+
+                //open dialer
+                phoneSecurity.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse("tel:" + resources.getString(R.string._603_8924_8065))
+                    startActivity(intent)
+                }
+
+                true
+
+
+            }
+
+            R.id.action_about -> {
+
+                MaterialAlertDialogBuilder(this)
+                    .setView(R.layout.dialog_about)
+                    .show()
+
+                true
+            }
+
             R.id.action_settings -> {
                 Toast.makeText(this, "No Function :P", Toast.LENGTH_SHORT).show()
                 true

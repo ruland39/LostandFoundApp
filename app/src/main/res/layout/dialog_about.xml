@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/AboutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/product_sans_bold"
+        android:text="@string/about_lostandfound"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/AboutText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/product_sans_regular"
+        android:text="@string/lostandfound_is_an_application_designed_and_built_from_scratch_for_the_purpose_of_completing_the_module_mobile_device_programming_comp3040_this_app_is_designed_to_help_people_find_their_lost_items_and_also_help_people_who_found_items_to_return_them_to_their_owners_this_app_is_built_using_kotlin_and_google_firebase_to_store_the_data"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AboutTitle"
+        android:layout_marginTop="32dp"
+        />
+
+    <ImageView
+        android:id="@+id/AboutAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/rulandnotionavatar4"
+        app:layout_constraintTop_toBottomOf="@id/AboutText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:contentDescription="RulandAvatar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ruland 2023"
+        android:fontFamily="@font/product_sans_bold"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/AboutAvatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

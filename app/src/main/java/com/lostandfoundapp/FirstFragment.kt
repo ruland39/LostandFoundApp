@@ -13,6 +13,7 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lostandfoundapp.databinding.FragmentFirstBinding
 
 /**
@@ -177,8 +178,15 @@ class FirstFragment : Fragment() {
 
 
             itemPhoto.setOnClickListener{
-                //TODO: enlarge the image as preview PHOTOVIEW
-                Toast.makeText(itemView.context, "Meow", Toast.LENGTH_SHORT).show()
+                val context = itemView.context
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_item_photo, null)
+                val previewImageView = dialogView.findViewById<ImageView>(R.id.preview_image_view)
+                previewImageView.setImageResource(item.itemPhoto)
+
+                MaterialAlertDialogBuilder(context)
+                    .setView(dialogView)
+                    .show()
+
             }
 
             dropDownButton.setOnClickListener{

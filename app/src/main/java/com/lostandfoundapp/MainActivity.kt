@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 val phoneSecurity = dialogView.findViewById<TextView>(R.id.security_phone_number)
 
 
-//mail to
+                //mail to
                 emailSecurity.setOnClickListener {
                     val emailIntent = Intent(Intent.ACTION_SENDTO)
                     emailIntent.data = Uri.parse("mailto:" + Uri.encode(resources.getString(R.string.security_nottingham_edu_my)))

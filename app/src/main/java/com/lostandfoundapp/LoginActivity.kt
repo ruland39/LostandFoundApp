@@ -39,14 +39,14 @@ class LoginActivity : AppCompatActivity() {
             if(email.isNotEmpty() && password.isNotEmpty()){
 
                 //TODO: Circular Progress Bar not running
-                showProgressBar()
+//                showProgressBar()
 
                 firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
 
-                        handler.postDelayed({
-                            hideProgressBar()
-                        }, 1000)
+//                        handler.postDelayed({
+//                            hideProgressBar()
+//                        }, 1000)
 
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()

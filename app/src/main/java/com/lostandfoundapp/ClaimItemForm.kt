@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lostandfoundapp.databinding.ActivityClaimItemFormBinding
 
 class ClaimItemForm : AppCompatActivity() {
@@ -33,11 +34,32 @@ class ClaimItemForm : AppCompatActivity() {
 
         //fetch data from firebase and set the text
         //TODO: wrong data being fetched
-        val user = firebaseAuth.currentUser
-        idNumber.setText(user?.uid) //should be Id number not UID
-        name.setText(user?.displayName) //not being displayed
-        email.setText(user?.email) //correct
-        phoneNumber.setText(user?.phoneNumber) //not being displayed
+//        val user = firebaseAuth.currentUser
+//
+//        idNumber.setText(user?.uid) //should be Id number not UID
+//        name.setText(user?.displayName) //not being displayed
+//        email.setText(user?.email) //correct
+//        phoneNumber.setText(user?.phoneNumber) //not being displayed
+
+        val db = FirebaseFirestore.getInstance()
+        val collectionRef = db.collection("users")
+        collectionRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    idNumber.setText(document.getString("idNumber"))
+                    name.setText(document.getString("name"))
+                    email.setText(document.getString("email"))
+                    phoneNumber.setText(document.getString("phoneNumber"))
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+
 
         binding.backButton.setOnClickListener {
             finish()

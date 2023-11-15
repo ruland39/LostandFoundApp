@@ -21,16 +21,19 @@ import android.widget.Spinner
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import com.google.gson.Gson
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.UUID
 
 class ReportLostItemFormActivity : AppCompatActivity() {
 
@@ -49,9 +52,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         }
 
 
-        //Firestore
-        val db = FirebaseFirestore.getInstance()
-
         //Variables Declaration
         val photo = binding.addPhoto
         val name = binding.name
@@ -60,6 +60,9 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         val location = binding.location
         val details = binding.details
         val submit = binding.submit
+
+        //Firestore
+        val db = FirebaseFirestore.getInstance()
 
         //PHOTO UPLOAD
         photo.setOnClickListener {
@@ -74,7 +77,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 
         //NAME
-        binding.name.addTextChangedListener(object : TextWatcher {
+        name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -125,7 +128,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         }
 
         // DATE AND TIME
-        binding.dateTime.setOnClickListener {
+        dateTime.setOnClickListener {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(
                 this,
@@ -155,7 +158,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         }
 
         // LOCATION
-        binding.location.addTextChangedListener(object : TextWatcher {
+        location.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -174,7 +177,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         //TODO: Use Google Maps API to get Location Coordinate
 
         // DETAILS
-        binding.details.addTextChangedListener(object : TextWatcher {
+        details.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
                     binding.details.error = "Please Enter Details"
@@ -297,6 +300,11 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     details = binding.details.text.toString()
                 )
 
+                val storageRef = Firebase.storage.reference
+                val lostItemsRef = storageRef.child("lostItems")
+
+
+
                 // Create a new item
                 val item = hashMapOf(
                     "photoUrl" to lostItem.photoUrl,
@@ -348,6 +356,27 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
             val imageUri = data.data
             binding.addPhoto.setImageURI(imageUri)
+
+            val storageRef = Firebase.storage.reference
+            val lostItemsRef = storageRef.child("lostItems/${UUID.randomUUID()}")
+
+            if (imageUri != null) {
+                lostItemsRef.putFile(imageUri)
+                    .continueWithTask{
+                        lostItemsRef.downloadUrl
+
+                    }
+                    .addOnCompleteListener(){
+                        if(it.isSuccessful){
+                            val downloadUri = it.result
+                            Log.d("TAG", "onActivityResult: $downloadUri")
+                            Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
+                        } else{
+                            Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+
         }
 
     }

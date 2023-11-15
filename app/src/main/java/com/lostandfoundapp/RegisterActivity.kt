@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lostandfoundapp.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
@@ -28,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
 
         binding.registerButton.setOnClickListener {
 
@@ -42,26 +44,48 @@ class RegisterActivity : AppCompatActivity() {
 
             if(idNumber.isNotEmpty() && name.isNotEmpty() && email.isNotEmpty() && phoneNumber.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
 
-                showProgressBar()
+//                showProgressBar()
 
                 if(checkEmail(email)){
                     if(checkPassword(password, confirmPassword)){
                         firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this) { task ->
 
-                                handler.postDelayed({
-                                    hideProgressBar()
-                                }, 1000)
+                                val user = firebaseAuth.currentUser
+                                val userDetail = hashMapOf(
+                                    "idNumber" to idNumber,
+                                    "name" to name,
+                                    "email" to email,
+                                    "phoneNumber" to phoneNumber,
+                                    "password" to password,
+                                    "confirmPassword" to confirmPassword
+                                )
 
-                                if (task.isSuccessful) {
-                                    Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
-                                    val intent = intent
-                                    intent.setClass(this, AccountSuccessActivity::class.java)
-                                    startActivity(intent)
-                                } else {
-                                    Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
-                                    Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
-                                }
+                                db.collection("users").document(user?.uid.toString())
+                                    .set(userDetail)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(this, "User Detail Saved to Firebase", Toast.LENGTH_SHORT).show()
+
+                                        if (task.isSuccessful) {
+                                            Toast.makeText(this, "Register Successful", Toast.LENGTH_SHORT).show()
+                                            val intent = intent
+                                            intent.setClass(this, AccountSuccessActivity::class.java)
+                                            startActivity(intent)
+                                        } else {
+                                            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
+                                        }
+
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                                    }
+
+//                                handler.postDelayed({
+//                                    hideProgressBar()
+//                                }, 1000)
+
+
                             }
                     }
                     else{

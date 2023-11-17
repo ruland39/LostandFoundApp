@@ -2,6 +2,7 @@ package com.lostandfoundapp
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +17,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.lostandfoundapp.databinding.ActivityMainBinding
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private val CAMERA_PERMISSION_CODE = 123
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +54,13 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
+        //ask for camera permission
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        }
+
+
         binding.fab.setOnLongClickListener {
 
             Snackbar.make(it, "Report Lost Item", Snackbar.LENGTH_LONG)
@@ -62,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -156,6 +169,11 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         moveTaskToBack(true)
         finish()
+    }
+
+    fun openClaimItemForm(view: View) {
+        val intent = Intent(this, ClaimItemForm::class.java)
+        startActivity(intent)
     }
 
 }

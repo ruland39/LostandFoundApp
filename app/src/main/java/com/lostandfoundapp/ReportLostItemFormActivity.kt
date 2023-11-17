@@ -5,8 +5,10 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +24,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
@@ -30,6 +33,8 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import com.google.gson.Gson
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -62,18 +67,31 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         val details = binding.details
         val submit = binding.submit
 
-        //Firestore
-//        val db = FirebaseFirestore.getInstance()
 
         //PHOTO UPLOAD
         photo.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            startActivityForResult(
-                Intent.createChooser(intent, "Select Picture"),
-                PICK_IMAGES_REQUEST_CODE
-            )
+
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+
+            val builder = MaterialAlertDialogBuilder(this)
+            builder.setTitle("Add Photo")
+            builder.setItems(options) {
+                dialog, which ->
+                when(which) {
+                    0 -> {
+                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
+                        takePhoto()
+                    }
+                    1 -> {
+                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
+                        choosefromGallery()
+                    }
+                    2 -> {
+                        dialog.dismiss()
+                    }
+                }
+            }
+            builder.show()
         }
 
 
@@ -326,53 +344,101 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
     }
 
+    private fun takePhoto() {
+        val intent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, PICK_IMAGES_REQUEST_CODE)
+    }
+
+    private fun choosefromGallery() {
+
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"),
+            PICK_IMAGES_REQUEST_CODE
+        )
+
+    }
+
+
+
     //Photo Upload Function
+// Photo Upload Function
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
-            val imageUri = data.data
-            binding.addPhoto.setImageURI(imageUri)
+        if (requestCode == PICK_IMAGES_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                val imageUri = data?.data
 
-            val storage = Firebase.storage
-            val storageRef = storage.reference
-            val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}.jpg")
-
-            if (imageUri != null) {
-                lostItemsRef.putFile(imageUri)
-                    .addOnSuccessListener { _ ->
-                        lostItemsRef.downloadUrl
-                            .addOnSuccessListener { downloadUri ->
-                                photoUrl = downloadUri.toString()
-                                Log.d("TAG", "onActivityResult: $downloadUri")
-                                Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
-
-                                // Now you can use the photoUrl in your LostItem object or wherever needed
-                                // Assuming you have variables for other fields (name, category, etc.)
-                                val lostItem = LostItem(
-                                    photoUrl = photoUrl,
-                                    name = binding.name.text.toString(),
-                                    category = binding.category.selectedItem.toString(),
-                                    dateTime = binding.dateTime.text.toString(),
-                                    location = binding.location.text.toString(),
-                                    details = binding.details.text.toString()
-                                )
-
-                                //Save Data to Firestore
-                                saveDataToFirestore(lostItem)
-
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
-                            }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
-                    }
+                if (imageUri != null) {
+                    binding.addPhoto.setImageURI(imageUri)
+                    uploadPhotoToFirebase(imageUri)
+                } else {
+                    // If data is null, it means the image was captured using the camera
+                    // You can access the captured image using the extras from the intent
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    val imageUriFromBitmap = getImageUriFromBitmap(imageBitmap)
+                    binding.addPhoto.setImageURI(imageUriFromBitmap)
+                    uploadPhotoToFirebase(imageUriFromBitmap)
+                }
+            } else {
+                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        }
+    // Helper method to convert Bitmap to Uri
+    private fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
+        val imageFile = File(this.cacheDir, "temp_image.jpg")
+        imageFile.createNewFile()
+
+        val outputStream = FileOutputStream(imageFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        return imageFile.toUri()
+    }
+
+    // Helper method to upload photo to Firebase
+    private fun uploadPhotoToFirebase(imageUri: Uri) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}.jpg")
+
+        lostItemsRef.putFile(imageUri)
+            .addOnSuccessListener { _ ->
+                lostItemsRef.downloadUrl
+                    .addOnSuccessListener { downloadUri ->
+                        photoUrl = downloadUri.toString()
+                        Log.d("TAG", "onActivityResult: $downloadUri")
+                        Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
+
+                        // Now you can use the photoUrl in your LostItem object or wherever needed
+                        // Assuming you have variables for other fields (name, category, etc.)
+                        val lostItem = LostItem(
+                            photoUrl = photoUrl,
+                            name = binding.name.text.toString(),
+                            category = binding.category.selectedItem.toString(),
+                            dateTime = binding.dateTime.text.toString(),
+                            location = binding.location.text.toString(),
+                            details = binding.details.text.toString()
+                        )
+
+                        //Save Data to Firestore
+                        saveDataToFirestore(lostItem)
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
+            }
+    }
 
     //TODO: Move Upload Photo to FIrestore to Submit Button
     private fun saveDataToFirestore(lostItem: LostItem) {

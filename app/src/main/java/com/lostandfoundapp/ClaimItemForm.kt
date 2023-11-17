@@ -4,16 +4,22 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.storage
 import com.lostandfoundapp.databinding.ActivityClaimItemFormBinding
+import java.util.UUID
 
 class ClaimItemForm : AppCompatActivity() {
     private lateinit var binding: ActivityClaimItemFormBinding
     private lateinit var firebaseAuth: FirebaseAuth
     val PICK_IMAGES_REQUEST_CODE = 123
+    private lateinit var photoUrl: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +58,7 @@ class ClaimItemForm : AppCompatActivity() {
                     phoneNumber.setText(document.getString("phoneNumber"))
                 }
             }
-            .addOnFailureListener { exception ->
+            .addOnFailureListener {
                 Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
             }
 
@@ -93,9 +99,85 @@ class ClaimItemForm : AppCompatActivity() {
         if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
             val imageUri = data.data
             binding.addPhoto.setImageURI(imageUri)
+
+            val storage = Firebase.storage
+            val storageRef = storage.reference
+            val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}-claimed.jpg")
+
+            if (imageUri != null) {
+                lostItemsRef.putFile(imageUri)
+                    .addOnSuccessListener { _ ->
+                        lostItemsRef.downloadUrl
+                            .addOnSuccessListener { downloadUri ->
+                                photoUrl = downloadUri.toString()
+                                Log.d("TAG", "onActivityResult: $downloadUri")
+                                Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
+
+                                // Now you can use the photoUrl in your LostItem object or wherever needed
+                                // Assuming you have variables for other fields (name, category, etc.)
+
+                                //Save Data to Firestore
+                                saveDataToFirestore(photoUrl)
+
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
+                    }
+            }
         }
 
     }
 
+    private fun saveDataToFirestore(photoUrl: String) {
+
+        //Declaration
+        val idNumber = binding.idNumber
+        val name = binding.name
+        val email = binding.email
+        val phoneNumber = binding.phoneNumber
+
+        val db = FirebaseFirestore.getInstance()
+        val collectionRef = db.collection("users")
+
+        collectionRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    idNumber.setText(document.getString("idNumber"))
+                    name.setText(document.getString("name"))
+                    email.setText(document.getString("email"))
+                    phoneNumber.setText(document.getString("phoneNumber"))
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
+            }
+
+
+        val claimDetail = hashMapOf(
+            "idNumber" to binding.idNumber.text.toString(),
+            "name" to binding.name.text.toString(),
+            "email" to binding.email.text.toString(),
+            "phoneNumber" to binding.phoneNumber.text.toString(),
+            "photoUrl" to photoUrl
+        )
+        
+        db.collection("claims").document()
+            .set(claimDetail)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Claim Detail Saved to Firebase", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            }
+
+
     }
+
+
+}
+
 

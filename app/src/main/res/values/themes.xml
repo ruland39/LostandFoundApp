@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/dark_green</item>
         <item name="colorSecondaryVariant">@color/light_green</item>
         <item name="colorOnSecondary">@color/light_green</item>
+
     </style>
 
     <style name="Theme.LostandFoundApp" parent="Base.Theme.LostandFoundApp">
@@ -45,6 +46,15 @@
         <item name="android:fontFamily">@font/product_sans_regular</item>
         <item name="android:textSize">18sp</item>
         <item name="android:paddingVertical">16dp</item>
+    </style>
+
+    </style>
+
+    <style name="Theme.LostandFoundApp" parent="Base.Theme.LostandFoundApp" />
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
     </style>
 
 </resources>

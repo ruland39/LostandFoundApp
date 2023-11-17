@@ -20,5 +20,155 @@
         android:layout_gravity="center"
         />
 
+    android:layout_height="match_parent"
+    tools:context=".FirstFragment"
+    android:padding="16dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/card_background"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="296dp"
+                android:layout_height="148dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:src="@drawable/screenshot_2022_05_26_180310"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/LostItemImage"
+                />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/ItemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ItemName"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    />
+
+                <androidx.appcompat.widget.AppCompatToggleButton
+                    android:id="@+id/togglebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:background="?selectableItemBackground"
+                    android:drawableEnd="@drawable/chevron_down"
+                    android:textOn=""
+                    android:textOff=""
+                    android:layout_weight="1"
+                    android:paddingEnd="8dp"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:fontFamily="@font/product_sans_bold"
+                android:layout_marginTop="16dp"
+
+                />
+            <TextView
+                android:id="@+id/ItemCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ItemCategory"
+                android:fontFamily="@font/product_sans_regular"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dateandtime"
+                android:fontFamily="@font/product_sans_bold"
+                android:layout_marginTop="8dp"
+                />
+            <TextView
+                android:id="@+id/ItemDateandTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ItemDateandTime"
+                android:fontFamily="@font/product_sans_regular"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:fontFamily="@font/product_sans_bold"
+                android:layout_marginTop="8dp"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ItemLocation"
+                android:fontFamily="@font/product_sans_regular"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/details"
+                android:fontFamily="@font/product_sans_bold"
+                android:layout_marginTop="8dp"
+
+                />
+            <TextView
+                android:id="@+id/ItemDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ItemDetails"
+                android:fontFamily="@font/product_sans_regular"
+                />
+
+            <Button
+                android:id="@+id/claim_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ClaimItem"
+                android:fontFamily="@font/product_sans_bold"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

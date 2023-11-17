@@ -74,6 +74,42 @@ class LoginActivity : AppCompatActivity() {
         binding.email.addTextChangedListener(textWatcher)
         binding.password.addTextChangedListener(textWatcher)
 
+=======
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+
+class LoginActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        //Declare Variables
+        val email = findViewById<EditText>(R.id.email)
+        val password = findViewById<EditText>(R.id.password)
+        val loginButton = findViewById<Button>(R.id.login_button)
+        val backButton = findViewById<androidx.appcompat.widget.AppCompatImageButton>(R.id.back_button)
+
+        backButton.setOnClickListener(){
+            val intent = intent
+            intent.setClass(this, LoginorRegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        loginButton.isEnabled = false
+
+        email.addTextChangedListener(textWatcher)
+        password.addTextChangedListener(textWatcher)
+
+        loginButton.setOnClickListener {
+            Toast.makeText(this, "Login Button Clicked", Toast.LENGTH_SHORT).show()
+            val intent = intent
+            intent.setClass(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
@@ -87,6 +123,12 @@ class LoginActivity : AppCompatActivity() {
             val password = findViewById<EditText>(R.id.password)
 
             binding.loginButton.isEnabled = email.text.isNotEmpty() && password.text.isNotEmpty()
+
+            val email = findViewById<EditText>(R.id.email)
+            val password = findViewById<EditText>(R.id.password)
+            val loginButton = findViewById<Button>(R.id.login_button)
+
+            loginButton.isEnabled = email.text.isNotEmpty() && password.text.isNotEmpty()
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -122,4 +164,7 @@ class LoginActivity : AppCompatActivity() {
 
     //TODO: Option to login using phone number
 
+
+
+    }
 }

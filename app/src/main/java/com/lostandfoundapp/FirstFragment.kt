@@ -120,6 +120,10 @@ class FirstFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.itemcardcontainer)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = CardViewAdapter(cardViewItems)
+        binding.claimButton.setOnClickListener {
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
+
     }
 
 

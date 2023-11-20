@@ -2,16 +2,22 @@ package com.lostandfoundapp
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.storage
 import com.lostandfoundapp.databinding.ActivityClaimItemFormBinding
+import java.io.File
+import java.io.FileOutputStream
 import java.util.UUID
 
 class ClaimItemForm : AppCompatActivity() {
@@ -40,13 +46,6 @@ class ClaimItemForm : AppCompatActivity() {
 
         //fetch data from firebase and set the text
         //TODO: wrong data being fetched
-//        val user = firebaseAuth.currentUser
-//
-//        idNumber.setText(user?.uid) //should be Id number not UID
-//        name.setText(user?.displayName) //not being displayed
-//        email.setText(user?.email) //correct
-//        phoneNumber.setText(user?.phoneNumber) //not being displayed
-
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db.collection("users")
         collectionRef.get()
@@ -63,76 +62,130 @@ class ClaimItemForm : AppCompatActivity() {
             }
 
 
-
-
-
-
         binding.backButton.setOnClickListener {
             finish()
         }
 
+        //PHOTO UPLOAD
         binding.addPhoto.setOnClickListener {
-            //open image gallery and can allow 1 photo
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGES_REQUEST_CODE)
+
+            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+
+            val builder = MaterialAlertDialogBuilder(this)
+            builder.setTitle("Add Photo")
+            builder.setItems(options) {
+                    dialog, which ->
+                when(which) {
+                    0 -> {
+//                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
+                        takePhoto()
+                    }
+                    1 -> {
+//                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
+                        choosefromGallery()
+                    }
+                    2 -> {
+                        dialog.dismiss()
+                    }
+                }
+            }
+            builder.show()
         }
 
-        if (binding.addPhoto.drawable == defaultPhoto){
-            Toast.makeText(this, "Please Upload Photo", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            binding.submit.isEnabled = true
-        }
+
 
         // SUBMIT
         binding.submit.setOnClickListener {
             Toast.makeText(this, "Item Claimed", Toast.LENGTH_SHORT).show()
-                //TODO: Upload to Firebase
+
+
+                fetchDataFromFirestore()
+                saveDatatoFirestore()
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
-            val imageUri = data.data
-            binding.addPhoto.setImageURI(imageUri)
+    private fun takePhoto() {
+        val intent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, PICK_IMAGES_REQUEST_CODE)
+    }
 
-            val storage = Firebase.storage
-            val storageRef = storage.reference
-            val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}-claimed.jpg")
+    private fun choosefromGallery() {
 
-            if (imageUri != null) {
-                lostItemsRef.putFile(imageUri)
-                    .addOnSuccessListener { _ ->
-                        lostItemsRef.downloadUrl
-                            .addOnSuccessListener { downloadUri ->
-                                photoUrl = downloadUri.toString()
-                                Log.d("TAG", "onActivityResult: $downloadUri")
-                                Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
-
-                                // Now you can use the photoUrl in your LostItem object or wherever needed
-                                // Assuming you have variables for other fields (name, category, etc.)
-
-                                //Save Data to Firestore
-                                saveDataToFirestore(photoUrl)
-
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
-                            }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
-                    }
-            }
-        }
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"),
+            PICK_IMAGES_REQUEST_CODE
+        )
 
     }
 
-    private fun saveDataToFirestore(photoUrl: String) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGES_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                val imageUri = data?.data
+
+                binding.submit.isEnabled = true
+
+                if (imageUri != null) {
+                    binding.addPhoto.setImageURI(imageUri)
+                    uploadPhotoToFirebase(imageUri)
+                } else {
+                    // If data is null, it means the image was captured using the camera
+                    // You can access the captured image using the extras from the intent
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    val imageUriFromBitmap = getImageUriFromBitmap(imageBitmap)
+                    binding.addPhoto.setImageURI(imageUriFromBitmap)
+                    uploadPhotoToFirebase(imageUriFromBitmap)
+                }
+            } else {
+                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Helper method to convert Bitmap to Uri
+    private fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
+        val imageFile = File(this.cacheDir, "temp_image.jpg")
+        imageFile.createNewFile()
+
+        val outputStream = FileOutputStream(imageFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        return imageFile.toUri()
+    }
+
+    // Helper method to upload photo to Firebase
+    private fun uploadPhotoToFirebase(imageUri: Uri) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}.jpg")
+
+        lostItemsRef.putFile(imageUri)
+            .addOnSuccessListener { _ ->
+                lostItemsRef.downloadUrl
+                    .addOnSuccessListener { downloadUri ->
+                        photoUrl = downloadUri.toString()
+                        Log.d("TAG", "onActivityResult: $downloadUri")
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Photo Upload Failed", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun fetchDataFromFirestore() {
 
         //Declaration
         val idNumber = binding.idNumber
@@ -143,9 +196,11 @@ class ClaimItemForm : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db.collection("users")
 
+
         collectionRef.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
+                    document.getString("documentID")
                     idNumber.setText(document.getString("idNumber"))
                     name.setText(document.getString("name"))
                     email.setText(document.getString("email"))
@@ -156,6 +211,12 @@ class ClaimItemForm : AppCompatActivity() {
                 Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
             }
 
+    }
+
+
+
+    private fun saveDatatoFirestore(){
+        val db = FirebaseFirestore.getInstance()
 
         val claimDetail = hashMapOf(
             "idNumber" to binding.idNumber.text.toString(),
@@ -164,9 +225,14 @@ class ClaimItemForm : AppCompatActivity() {
             "phoneNumber" to binding.phoneNumber.text.toString(),
             "photoUrl" to photoUrl
         )
-        
-        db.collection("claims").document()
-            .set(claimDetail)
+
+        //TODO: if documentID is equal, add claimDetails (the one on top) to the existing items document
+
+//        val documentID =
+
+
+        db.collection("items")
+            .add(claimDetail) // Use add instead of document() to automatically generate document ID
             .addOnSuccessListener {
                 Toast.makeText(this, "Claim Detail Saved to Firebase", Toast.LENGTH_SHORT).show()
             }
@@ -174,8 +240,9 @@ class ClaimItemForm : AppCompatActivity() {
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
             }
 
-
     }
+
+
 
 
 }

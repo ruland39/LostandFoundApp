@@ -171,9 +171,4 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-    fun openClaimItemForm(view: View) {
-        val intent = Intent(this, ClaimItemForm::class.java)
-        startActivity(intent)
-    }
-
 }

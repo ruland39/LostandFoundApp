@@ -194,6 +194,7 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById<TextView>(R.id.ItemName).text = item.itemName
             itemView.findViewById<TextView>(R.id.ItemCategory).text = item.itemCategory
             itemView.findViewById<TextView>(R.id.ItemDateandTime).text = item.itemDateandTime
+            itemView.findViewById<TextView>(R.id.ItemLocation).text = item.itemLocation
             itemView.findViewById<TextView>(R.id.ItemDetails).text = item.itemDetails
 
             //Buttons

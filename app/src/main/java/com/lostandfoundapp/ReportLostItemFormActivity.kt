@@ -80,11 +80,11 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 dialog, which ->
                 when(which) {
                     0 -> {
-                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
                         takePhoto()
                     }
                     1 -> {
-                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
                         choosefromGallery()
                     }
                     2 -> {
@@ -197,18 +197,19 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
         // DETAILS
         details.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isEmpty()) {
                     binding.details.error = "Please Enter Details"
                 } else {
                     binding.details.error = null
                 }
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
 
@@ -252,26 +253,28 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         })
 
         binding.location.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                submit.isEnabled = s.toString().isNotEmpty()
-            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                submit.isEnabled = s.toString().isNotEmpty()
             }
         })
 
         binding.details.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                submit.isEnabled = s.toString().isNotEmpty()
-            }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                submit.isEnabled = s.toString().isNotEmpty()
             }
         })
 
@@ -312,7 +315,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 // Create a LostItem object
                 val lostItem = LostItem(
                     documentID = UUID.randomUUID().toString(),
-                    photoUrl = photoUrl, // Replace with the actual URL or reference
+                    photoUrl = photoUrl,
                     name = binding.name.text.toString(),
                     category = binding.category.selectedItem.toString(),
                     dateTime = binding.dateTime.text.toString(),
@@ -334,8 +337,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 // Save data to Firebase
                 saveDataToFirestore(lostItem)
 
-                // Show a snackbar
-                Snackbar.make(binding.root, "Item Reported", Snackbar.LENGTH_SHORT).show()
 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
@@ -364,7 +365,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 
     //Photo Upload Function
-// Photo Upload Function
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -425,12 +425,12 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             }
     }
 
-    //TODO: Move Upload Photo to FIrestore to Submit Button
     private fun saveDataToFirestore(lostItem: LostItem) {
         val db = FirebaseFirestore.getInstance()
 
         // Create a new item
         val item = hashMapOf(
+            "documentID" to lostItem.documentID,
             "photoUrl" to lostItem.photoUrl,
             "name" to lostItem.name,
             "category" to lostItem.category,
@@ -438,6 +438,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             "location" to lostItem.location,
             "details" to lostItem.details
         )
+
 
         //check if there is internet connection
         if(isNetworkConnected(this)){

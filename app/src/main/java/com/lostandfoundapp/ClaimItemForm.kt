@@ -25,6 +25,7 @@ class ClaimItemForm : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
+    private lateinit var documentID: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,16 +46,36 @@ class ClaimItemForm : AppCompatActivity() {
         val phoneNumber = binding.phoneNumber
 
         //fetch data from firebase and set the text
-        //TODO: wrong data being fetched
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db.collection("users")
         collectionRef.get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
+
+                    //Set Text of User Claim Details
                     idNumber.setText(document.getString("idNumber"))
                     name.setText(document.getString("name"))
                     email.setText(document.getString("email"))
                     phoneNumber.setText(document.getString("phoneNumber"))
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
+            }
+
+        //fetch item details
+        val database = FirebaseFirestore.getInstance()
+        val itemRef = database.collection("items")
+        itemRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    documentID = document.getString("documentID") ?: ""
+                    val itemPhoto = document.getString("photoUrl")
+                    val itemName = document.getString("name")
+                    val itemCategory = document.getString("category")
+                    val itemDateTime = document.getString("dateTime")
+                    val itemLocation = document.getString("location")
+                    val itemDetails = document.getString("details")
                 }
             }
             .addOnFailureListener {
@@ -73,17 +94,18 @@ class ClaimItemForm : AppCompatActivity() {
 
             val builder = MaterialAlertDialogBuilder(this)
             builder.setTitle("Add Photo")
-            builder.setItems(options) {
-                    dialog, which ->
-                when(which) {
+            builder.setItems(options) { dialog, which ->
+                when (which) {
                     0 -> {
 //                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
                         takePhoto()
                     }
+
                     1 -> {
 //                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
                         choosefromGallery()
                     }
+
                     2 -> {
                         dialog.dismiss()
                     }
@@ -93,18 +115,17 @@ class ClaimItemForm : AppCompatActivity() {
         }
 
 
-
         // SUBMIT
         binding.submit.setOnClickListener {
             Toast.makeText(this, "Item Claimed", Toast.LENGTH_SHORT).show()
 
 
-                fetchDataFromFirestore()
-                saveDatatoFirestore()
+            fetchDataFromFirestore()
+            saveDatatoFirestore()
 
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun takePhoto() {
@@ -177,7 +198,8 @@ class ClaimItemForm : AppCompatActivity() {
                         Log.d("TAG", "onActivityResult: $downloadUri")
                     }
                     .addOnFailureListener {
-                        Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Failed to get download URL", Toast.LENGTH_SHORT)
+                            .show()
                     }
             }
             .addOnFailureListener {
@@ -214,9 +236,13 @@ class ClaimItemForm : AppCompatActivity() {
     }
 
 
-
-    private fun saveDatatoFirestore(){
+    private fun saveDatatoFirestore() {
         val db = FirebaseFirestore.getInstance()
+
+        //TODO: if documentID is equal, add claimDetails (the one on top) to the existing items document
+
+        //check if documentID is equal to the one in the database, if true then add claimDetails to the existing items document
+        //if false then create a new document with the claimDetails
 
         val claimDetail = hashMapOf(
             "idNumber" to binding.idNumber.text.toString(),
@@ -226,25 +252,63 @@ class ClaimItemForm : AppCompatActivity() {
             "photoUrl" to photoUrl
         )
 
-        //TODO: if documentID is equal, add claimDetails (the one on top) to the existing items document
-
-//        val documentID =
-
-
+        // Check if the document with the given documentID already exists
         db.collection("items")
-            .add(claimDetail) // Use add instead of document() to automatically generate document ID
-            .addOnSuccessListener {
-                Toast.makeText(this, "Claim Detail Saved to Firebase", Toast.LENGTH_SHORT).show()
+            .document(documentID)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    // Document with the given documentID exists, update the existing document
+                    db.collection("items")
+                        .document(documentID)
+                        .update("claimDetails", claimDetail)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                this,
+                                "Claim Detail Updated in Firebase",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                this,
+                                "Failed to update claim detail",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                } else {
+                    // Document with the given documentID does not exist, create a new document
+                    Toast.makeText(
+                        this,
+                        "Document with ID $documentID does not exist. Creating a new document.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    db.collection("items")
+                        .document(documentID)
+                        .set(claimDetail) // Use set() instead of add() for an existing document
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                this,
+                                "Claim Detail Saved to Firebase",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { e ->
+                // Handle errors
+                Toast.makeText(
+                    this,
+                    "Error checking document existence: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
 
     }
-
-
-
-
 }
 
 

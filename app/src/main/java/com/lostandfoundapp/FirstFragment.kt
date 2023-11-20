@@ -41,6 +41,8 @@ class FirstFragment : Fragment() {
     private val binding get() = _binding!!
 
 
+    //TODO: If there is no Item, display a message
+
     // Use a suspend function to fetch data asynchronously
     private suspend fun fetchFirestoreData(): List<CardViewItem> {
         val cardViewItems = mutableListOf<CardViewItem>()
@@ -50,7 +52,7 @@ class FirstFragment : Fragment() {
             for (document in querySnapshot.documents) {
 
                 val cardViewItem = CardViewItem(
-                    document.id,
+                    documentID = document.getString("documentID")!!,
                     itemPhoto = document.getString("photoUrl")!!,
                     itemName = document.getString("name")!!,
                     itemCategory = document.getString("category")!!,

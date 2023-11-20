@@ -43,6 +43,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     private val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
     private var firstFragment: FirstFragment? = null
+    private val timestamp = System.currentTimeMillis()/1000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -314,7 +315,8 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
                 // Create a LostItem object
                 val lostItem = LostItem(
-                    documentID = UUID.randomUUID().toString(),
+                    //TODO: Change documentID to readeable format
+                    documentID = "LostItem_$timestamp",
                     photoUrl = photoUrl,
                     name = binding.name.text.toString(),
                     category = binding.category.selectedItem.toString(),
@@ -406,7 +408,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     private fun uploadPhotoToFirebase(imageUri: Uri) {
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val lostItemsRef = storageRef.child("items/${UUID.randomUUID()}.jpg")
+        val lostItemsRef = storageRef.child("items/LostItem_$timestamp.jpg")
 
         lostItemsRef.putFile(imageUri)
             .addOnSuccessListener { _ ->
@@ -439,16 +441,19 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             "details" to lostItem.details
         )
 
+        val documentID = lostItem.documentID
+        val itemsCollection = db.collection("items").document(documentID)
+
 
         //check if there is internet connection
         if(isNetworkConnected(this)){
             //yes intenet
-            // Add a new document with a generated ID
-            db.collection("items")
-                .add(item)
+            // Add a new document with documentID
+            itemsCollection.set(item)
                 .addOnSuccessListener { documentReference ->
-                    Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
-                    Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
+//                    Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
+//                    Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Item Reported Successfully", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
                     Log.w("TAG", "Error adding document", e)
@@ -486,6 +491,8 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     }
 
 //DATAAAAAAAAAAAA
+
+//TODO: Add isClaimed Boolean to check if item has been claimed or not, if claimed, disable claim button
 data class LostItem(
     val documentID: String,
     val photoUrl: String, // URL or reference to the photo

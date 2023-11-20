@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -27,9 +26,7 @@ import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import com.google.gson.Gson
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
@@ -45,6 +42,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReportLostItemFormBinding
     private val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
+    private var firstFragment: FirstFragment? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +64,9 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         val location = binding.location
         val details = binding.details
         val submit = binding.submit
+
+        // Initialize or find the FirstFragment
+        firstFragment = supportFragmentManager.findFragmentByTag("FirstFragment") as? FirstFragment
 
 
         //PHOTO UPLOAD
@@ -114,7 +115,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 
         // CATEGORY
-        // Create an ArrayAdapter using the string array and a default spinner layout
         val spinnerTitle: Spinner = findViewById(R.id.category)
         val spinner: Spinner = findViewById(R.id.category)
 
@@ -307,9 +307,11 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 
             } else {
-                //TODO: Upload to Firebase
 
+
+                // Create a LostItem object
                 val lostItem = LostItem(
+                    documentID = UUID.randomUUID().toString(),
                     photoUrl = photoUrl, // Replace with the actual URL or reference
                     name = binding.name.text.toString(),
                     category = binding.category.selectedItem.toString(),
@@ -318,18 +320,12 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     details = binding.details.text.toString()
                 )
 
+                // Convert LostItem to CardViewItem
+                val cardViewItem = lostItem.toCardViewItem()
 
-                // Create a new item
-                val item = hashMapOf(
-                    "photoUrl" to lostItem.photoUrl,
-                    "name" to lostItem.name,
-                    "category" to lostItem.category,
-                    "dateTime" to lostItem.dateTime,
-                    "location" to lostItem.location,
-                    "details" to lostItem.details
-                )
-
-
+                // Call the addCard function in FirstFragment to add the new card
+                val firstFragment = supportFragmentManager.fragments.firstOrNull { it is FirstFragment } as? FirstFragment
+                firstFragment?.addCard(cardViewItem)
 
 
                 // Save data locally
@@ -337,6 +333,10 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
                 // Save data to Firebase
                 saveDataToFirestore(lostItem)
+
+                // Show a snackbar
+                Snackbar.make(binding.root, "Item Reported", Snackbar.LENGTH_SHORT).show()
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -414,21 +414,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     .addOnSuccessListener { downloadUri ->
                         photoUrl = downloadUri.toString()
                         Log.d("TAG", "onActivityResult: $downloadUri")
-                        Toast.makeText(this, "Photo Uploaded", Toast.LENGTH_SHORT).show()
-
-                        // Now you can use the photoUrl in your LostItem object or wherever needed
-                        // Assuming you have variables for other fields (name, category, etc.)
-                        val lostItem = LostItem(
-                            photoUrl = photoUrl,
-                            name = binding.name.text.toString(),
-                            category = binding.category.selectedItem.toString(),
-                            dateTime = binding.dateTime.text.toString(),
-                            location = binding.location.text.toString(),
-                            details = binding.details.text.toString()
-                        )
-
-                        //Save Data to Firestore
-                        saveDataToFirestore(lostItem)
 
                     }
                     .addOnFailureListener {
@@ -487,39 +472,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 
 }
 
-    //DATAAAAAAAAAAAA
-
-    data class LostItem(
-        val photoUrl: String, // URL or reference to the photo
-        val name: String,
-        val category: String,
-        val dateTime: String,
-        val location: String,
-        val details: String
-    )
-
-
-    // Save data to Firebase
-//    private fun saveDataToFirebase(lostItem: LostItem) {
-//        val database = FirebaseApp.getInstance().database
-//        val lostItemsRef = database.getReference("lostItems")
-//
-//        // Generate a unique key for the lost item
-//        val lostItemId = lostItemsRef.push().key
-//
-//        // Save the lost item to Firebase
-//        if (lostItemId != null) {
-//            lostItemsRef.child(lostItemId).setValue(lostItem)
-//                .addOnSuccessListener {
-//                    // Data successfully saved to Firebase
-//                    Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
-//                }
-//                .addOnFailureListener {
-//                    // Handle failure
-//                    Toast.makeText(this, "Failed to save data to Firebase", Toast.LENGTH_SHORT).show()
-//                }
-//        }
-//    }
 
     fun isNetworkConnected(context: Context): Boolean {
         val connectivityManager =
@@ -531,3 +483,26 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                         capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }
+
+//DATAAAAAAAAAAAA
+data class LostItem(
+    val documentID: String,
+    val photoUrl: String, // URL or reference to the photo
+    val name: String,
+    val category: String,
+    val dateTime: String,
+    val location: String,
+    val details: String
+){
+    fun toCardViewItem(): CardViewItem {
+        return CardViewItem(
+            documentID,
+            photoUrl,
+            name,
+            category,
+            dateTime,
+            location,
+            details
+        )
+    }
+}

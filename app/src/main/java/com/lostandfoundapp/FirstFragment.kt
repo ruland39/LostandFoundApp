@@ -35,6 +35,7 @@ class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -100,6 +101,23 @@ class FirstFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.itemcardcontainer)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = CardViewAdapter(cardViewItems)
+
+        //Swipe to Refresh
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
+        }
+
+    }
+
+    private fun refreshData() {
+        lifecycleScope.launch {
+            val cardViewItems = fetchFirestoreData()
+            (binding.itemcardcontainer.adapter as CardViewAdapter).updateData(cardViewItems)
+
+            // Hide the refresh indicator after data is loaded
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 
 
@@ -151,6 +169,13 @@ class FirstFragment : Fragment() {
         // Add this function to your CardViewAdapter
         fun addItem(item: CardViewItem) {
             cardViewItems.toMutableList().add(item)
+            notifyDataSetChanged() // Notify that the data set has changed
+        }
+
+        // Add this function to your CardViewAdapter
+        fun updateData(newData: List<CardViewItem>) {
+            cardViewItems.clear()
+            cardViewItems.addAll(newData)
             notifyDataSetChanged() // Notify that the data set has changed
         }
 

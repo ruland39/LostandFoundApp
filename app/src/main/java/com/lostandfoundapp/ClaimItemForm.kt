@@ -261,7 +261,12 @@ class ClaimItemForm : AppCompatActivity() {
                     // Document with the given documentID exists, update the existing document
                     db.collection("items")
                         .document(documentID)
-                        .update("claimDetails", claimDetail)
+                        .update(
+                            mapOf(
+                                "claimDetails" to claimDetail,
+                                "isClaimed" to true
+                            )
+                        )
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this,

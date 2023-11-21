@@ -59,6 +59,7 @@ class FirstFragment : Fragment() {
                     itemDateandTime = document.getString("dateTime")!!,
                     itemLocation = document.getString("location")!!,
                     itemDetails = document.getString("details")!!,
+                    isClaimed = document.getBoolean("isClaimed")!!
                 )
 
                 cardViewItems.add(cardViewItem)
@@ -124,6 +125,7 @@ class FirstFragment : Fragment() {
         val itemDateandTime: String,
         val itemLocation: String,
         val itemDetails: String,
+        val isClaimed: Boolean = false
     )
 
 
@@ -204,6 +206,12 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val detailsContainer = itemView.findViewById<View>(R.id.details_container)
             val dropDownButton = itemView.findViewById<ToggleButton>(R.id.dropdownbutton)
             val claimButton = itemView.findViewById<Button>(R.id.claim_button)
+
+            //Disable Claim Button if item isClaimed=true
+            if (item.isClaimed) {
+                claimButton.isEnabled = false
+                claimButton.text = "Item has been claimed"
+            }
 
 
             //Preview Function

@@ -322,7 +322,8 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                     category = binding.category.selectedItem.toString(),
                     dateTime = binding.dateTime.text.toString(),
                     location = binding.location.text.toString(),
-                    details = binding.details.text.toString()
+                    details = binding.details.text.toString(),
+                    isClaimed = false
                 )
 
                 // Convert LostItem to CardViewItem
@@ -438,7 +439,8 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             "category" to lostItem.category,
             "dateTime" to lostItem.dateTime,
             "location" to lostItem.location,
-            "details" to lostItem.details
+            "details" to lostItem.details,
+            "isClaimed" to lostItem.isClaimed
         )
 
         val documentID = lostItem.documentID
@@ -500,7 +502,8 @@ data class LostItem(
     val category: String,
     val dateTime: String,
     val location: String,
-    val details: String
+    val details: String,
+    var isClaimed: Boolean = false
 ){
     fun toCardViewItem(): CardViewItem {
         return CardViewItem(
@@ -510,7 +513,12 @@ data class LostItem(
             category,
             dateTime,
             location,
-            details
+            details,
+            isClaimed
         )
+    }
+
+    fun markAsClaimed() {
+        isClaimed = true
     }
 }

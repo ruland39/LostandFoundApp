@@ -1,5 +1,6 @@
 package com.lostandfoundapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.lostandfoundapp.databinding.FragmentFirstBinding
@@ -255,21 +257,19 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
             //Preview Function
-            //TODO: Fix Preview Function
             itemPhoto.setOnClickListener{
-                val context = itemView.context
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_item_photo, null)
-                val previewImageView = dialogView.findViewById<ImageView>(R.id.preview_image_view)
-//                previewImageView.setImageResource(item.itemPhoto)
-                //Load Image using Glide
+
+                val dialog = Dialog(itemView.context)
+                dialog.setContentView(R.layout.dialog_item_photo)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                val previewImage = dialog.findViewById<ImageView>(R.id.preview_image_view)
                 Glide.with(itemView.context)
                     .load(item.itemPhoto)
-                    .into(previewImageView)
+                    .into(previewImage)
 
-                MaterialAlertDialogBuilder(context)
-                    .setView(dialogView)
-                    .show()
-
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.show()
             }
 
             dropDownButton.setOnClickListener{

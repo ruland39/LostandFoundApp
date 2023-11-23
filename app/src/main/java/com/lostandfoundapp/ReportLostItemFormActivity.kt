@@ -26,6 +26,7 @@ import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.storage
 import com.google.gson.Gson
@@ -429,45 +430,73 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     }
 
     private fun saveDataToFirestore(lostItem: LostItem) {
+        //TODO: Fetch currentUser UID, Get the 'users' document with the UID, Get (email, idNumber, Name, phoneNumber) from the document, save it to the lostItem object as reporterDetails
         val db = FirebaseFirestore.getInstance()
+        val currentUser = Firebase.auth.currentUser
 
-        // Create a new item
-        val item = hashMapOf(
-            "documentID" to lostItem.documentID,
-            "photoUrl" to lostItem.photoUrl,
-            "name" to lostItem.name,
-            "category" to lostItem.category,
-            "dateTime" to lostItem.dateTime,
-            "location" to lostItem.location,
-            "details" to lostItem.details,
-            "isClaimed" to lostItem.isClaimed
-        )
+        val userRef = db.collection("users").document(currentUser?.uid.toString())
+        userRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val reporterDetails = hashMapOf(
+                        "email" to document.getString("email"),
+                        "idNumber" to document.getString("idNumber"),
+                        "name" to document.getString("name"),
+                        "phoneNumber" to document.getString("phoneNumber")
+                    )
+                    lostItem.reporterDetails = reporterDetails
 
-        val documentID = lostItem.documentID
-        val itemsCollection = db.collection("items").document(documentID)
+                    // Create a new item
+                    val item = hashMapOf(
+                        "documentID" to lostItem.documentID,
+                        "photoUrl" to lostItem.photoUrl,
+                        "name" to lostItem.name,
+                        "category" to lostItem.category,
+                        "dateTime" to lostItem.dateTime,
+                        "location" to lostItem.location,
+                        "details" to lostItem.details,
+                        "isClaimed" to lostItem.isClaimed,
+                        "reporterDetails" to lostItem.reporterDetails
+                    )
+
+                    val documentID = lostItem.documentID
+                    val itemsCollection = db.collection("items").document(documentID)
 
 
-        //check if there is internet connection
-        if(isNetworkConnected(this)){
-            //yes intenet
-            // Add a new document with documentID
-            itemsCollection.set(item)
-                .addOnSuccessListener { documentReference ->
+                    //check if there is internet connection
+                    if (isNetworkConnected(this)) {
+                        //yes intenet
+                        // Add a new document with documentID
+                        itemsCollection.set(item)
+                            .addOnSuccessListener { documentReference ->
 //                    Log.d("TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
 //                    Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, "Item Reported Successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    Log.w("TAG", "Error adding document", e)
-                    Toast.makeText(this, "Failed to save data to Firebase", Toast.LENGTH_SHORT).show()
-                }
-        }
-        else{
-            //no internet
-            saveDataLocally(lostItem)
-            Toast.makeText(this, "No Internet Connection. Item saved locally. Item will be uploaded once there is Internet Connection", Toast.LENGTH_SHORT).show()
-        }
+                                Toast.makeText(
+                                    this,
+                                    "Item Reported Successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("TAG", "Error adding document", e)
+                                Toast.makeText(
+                                    this,
+                                    "Failed to save data to Firebase",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    } else {
+                        //no internet
+                        saveDataLocally(lostItem)
+                        Toast.makeText(
+                            this,
+                            "No Internet Connection. Item saved locally. Item will be uploaded once there is Internet Connection",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
+                }
+            }
     }
 
     // Save Data Locally
@@ -505,6 +534,8 @@ data class LostItem(
     val details: String,
     var isClaimed: Boolean = false
 ){
+    lateinit var reporterDetails: HashMap<String, String?>
+
     fun toCardViewItem(): CardViewItem {
         return CardViewItem(
             documentID,

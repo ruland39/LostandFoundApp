@@ -1,6 +1,6 @@
 package com.lostandfoundapp
 
-import android.app.Activity.RESULT_OK
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -23,10 +23,9 @@ import java.util.UUID
 class ClaimItemForm : AppCompatActivity() {
     private lateinit var binding: ActivityClaimItemFormBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    val PICK_IMAGES_REQUEST_CODE = 123
+    private val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
     private lateinit var documentID: String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,93 +38,50 @@ class ClaimItemForm : AppCompatActivity() {
         val defaultPhoto = ContextCompat.getDrawable(this, R.drawable.addphoto)
         binding.submit.isEnabled = false
 
-        //Declaration
+        // Declaration
         val idNumber = binding.idNumber
         val name = binding.name
         val email = binding.email
         val phoneNumber = binding.phoneNumber
 
-        //fetch data from firebase and set the text
-        val db = FirebaseFirestore.getInstance()
-        val collectionRef = db.collection("users")
-        collectionRef.get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
+        // Fetch data from Firebase and set the text
+        fetchDataFromFirestore()
 
-                    //Set Text of User Claim Details
-                    idNumber.setText(document.getString("idNumber"))
-                    name.setText(document.getString("name"))
-                    email.setText(document.getString("email"))
-                    phoneNumber.setText(document.getString("phoneNumber"))
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
-            }
-
-        //fetch item details
-        val database = FirebaseFirestore.getInstance()
-        val itemRef = database.collection("items")
-        itemRef.get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    documentID = document.getString("documentID") ?: ""
-                    val itemPhoto = document.getString("photoUrl")
-                    val itemName = document.getString("name")
-                    val itemCategory = document.getString("category")
-                    val itemDateTime = document.getString("dateTime")
-                    val itemLocation = document.getString("location")
-                    val itemDetails = document.getString("details")
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
-            }
-
+        // Fetch item details
+        fetchItemDetailsFromFirestore()
 
         binding.backButton.setOnClickListener {
             finish()
         }
 
-        //PHOTO UPLOAD
+        // PHOTO UPLOAD
         binding.addPhoto.setOnClickListener {
-
-            val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
-
-            val builder = MaterialAlertDialogBuilder(this)
-            builder.setTitle("Add Photo")
-            builder.setItems(options) { dialog, which ->
-                when (which) {
-                    0 -> {
-//                        Toast.makeText(this, "Take Photo", Toast.LENGTH_SHORT).show()
-                        takePhoto()
-                    }
-
-                    1 -> {
-//                        Toast.makeText(this, "Choose from Gallery", Toast.LENGTH_SHORT).show()
-                        choosefromGallery()
-                    }
-
-                    2 -> {
-                        dialog.dismiss()
-                    }
-                }
-            }
-            builder.show()
+            showPhotoOptions()
         }
-
 
         // SUBMIT
         binding.submit.setOnClickListener {
-//            Toast.makeText(this, "Item Claimed", Toast.LENGTH_SHORT).show()
-
-
             fetchDataFromFirestore()
-            saveDatatoFirestore()
+            saveDataToFirestore()
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun showPhotoOptions() {
+        val options = arrayOf("Take Photo", "Choose from Gallery", "Cancel")
+
+        val builder = MaterialAlertDialogBuilder(this)
+        builder.setTitle("Add Photo")
+        builder.setItems(options) { dialog, which ->
+            when (which) {
+                0 -> takePhoto()
+                1 -> chooseFromGallery()
+                2 -> dialog.dismiss()
+            }
+        }
+        builder.show()
     }
 
     private fun takePhoto() {
@@ -133,45 +89,37 @@ class ClaimItemForm : AppCompatActivity() {
         startActivityForResult(intent, PICK_IMAGES_REQUEST_CODE)
     }
 
-    private fun choosefromGallery() {
-
+    private fun chooseFromGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(
             Intent.createChooser(intent, "Select Picture"),
             PICK_IMAGES_REQUEST_CODE
         )
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGES_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                val imageUri = data?.data
+        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageUri = data?.data
 
-                binding.submit.isEnabled = true
+            binding.submit.isEnabled = true
 
-                if (imageUri != null) {
-                    binding.addPhoto.setImageURI(imageUri)
-                    uploadPhotoToFirebase(imageUri)
-                } else {
-                    // If data is null, it means the image was captured using the camera
-                    // You can access the captured image using the extras from the intent
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    val imageUriFromBitmap = getImageUriFromBitmap(imageBitmap)
-                    binding.addPhoto.setImageURI(imageUriFromBitmap)
-                    uploadPhotoToFirebase(imageUriFromBitmap)
-                }
+            if (imageUri != null) {
+                binding.addPhoto.setImageURI(imageUri)
+                uploadPhotoToFirebase(imageUri)
             } else {
-                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
+                val imageBitmap = data?.extras?.get("data") as Bitmap
+                val imageUriFromBitmap = getImageUriFromBitmap(imageBitmap)
+                binding.addPhoto.setImageURI(imageUriFromBitmap)
+                uploadPhotoToFirebase(imageUriFromBitmap)
             }
+        } else {
+            Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Helper method to convert Bitmap to Uri
     private fun getImageUriFromBitmap(bitmap: Bitmap): Uri {
         val imageFile = File(this.cacheDir, "temp_image.jpg")
         imageFile.createNewFile()
@@ -184,7 +132,6 @@ class ClaimItemForm : AppCompatActivity() {
         return imageFile.toUri()
     }
 
-    // Helper method to upload photo to Firebase
     private fun uploadPhotoToFirebase(imageUri: Uri) {
         val storage = Firebase.storage
         val storageRef = storage.reference
@@ -208,42 +155,56 @@ class ClaimItemForm : AppCompatActivity() {
     }
 
     private fun fetchDataFromFirestore() {
-
-        //Declaration
-        val idNumber = binding.idNumber
-        val name = binding.name
-        val email = binding.email
-        val phoneNumber = binding.phoneNumber
-
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db.collection("users")
+        val currentUserUid = firebaseAuth.currentUser?.uid
 
+        collectionRef.document(currentUserUid!!)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val idNumberValue = document.getString("idNumber")
+                    val nameValue = document.getString("name")
+                    val emailValue = document.getString("email")
+                    val phoneNumberValue = document.getString("phoneNumber")
 
-        collectionRef.get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    document.getString("documentID")
-                    idNumber.setText(document.getString("idNumber"))
-                    name.setText(document.getString("name"))
-                    email.setText(document.getString("email"))
-                    phoneNumber.setText(document.getString("phoneNumber"))
+                    // Set Text of User Claim Details
+                    binding.idNumber.setText(idNumberValue)
+                    binding.name.setText(nameValue)
+                    binding.email.setText(emailValue)
+                    binding.phoneNumber.setText(phoneNumberValue)
+                } else {
+                    Toast.makeText(this, "User document not found", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Error getting data", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error getting user data", Toast.LENGTH_SHORT).show()
             }
-
     }
 
-
-    private fun saveDatatoFirestore() {
+    private fun fetchItemDetailsFromFirestore() {
         val db = FirebaseFirestore.getInstance()
+        val itemRef = db.collection("items")
 
-        //TODO: if documentID is equal, add claimDetails (the one on top) to the existing items document
+        itemRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    documentID = document.getString("documentID") ?: ""
+                    val itemPhoto = document.getString("photoUrl")
+                    val itemName = document.getString("name")
+                    val itemCategory = document.getString("category")
+                    val itemDateTime = document.getString("dateTime")
+                    val itemLocation = document.getString("location")
+                    val itemDetails = document.getString("details")
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error getting item data", Toast.LENGTH_SHORT).show()
+            }
+    }
 
-        //check if documentID is equal to the one in the database, if true then add claimDetails to the existing items document
-        //if false then create a new document with the claimDetails
-
+    private fun saveDataToFirestore() {
+        val db = FirebaseFirestore.getInstance()
         val claimDetail = hashMapOf(
             "idNumber" to binding.idNumber.text.toString(),
             "name" to binding.name.text.toString(),
@@ -252,13 +213,11 @@ class ClaimItemForm : AppCompatActivity() {
             "photoUrl" to photoUrl
         )
 
-        // Check if the document with the given documentID already exists
         db.collection("items")
             .document(documentID)
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    // Document with the given documentID exists, update the existing document
                     db.collection("items")
                         .document(documentID)
                         .update(
@@ -282,7 +241,6 @@ class ClaimItemForm : AppCompatActivity() {
                             ).show()
                         }
                 } else {
-                    // Document with the given documentID does not exist, create a new document
                     Toast.makeText(
                         this,
                         "Document with ID $documentID does not exist. Creating a new document.",
@@ -290,7 +248,7 @@ class ClaimItemForm : AppCompatActivity() {
                     ).show()
                     db.collection("items")
                         .document(documentID)
-                        .set(claimDetail) // Use set() instead of add() for an existing document
+                        .set(claimDetail)
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this,
@@ -304,16 +262,11 @@ class ClaimItemForm : AppCompatActivity() {
                 }
             }
             .addOnFailureListener { e ->
-                // Handle errors
                 Toast.makeText(
                     this,
                     "Error checking document existence: ${e.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-
     }
 }
-
-

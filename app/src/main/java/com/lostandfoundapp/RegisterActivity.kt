@@ -56,9 +56,7 @@ class RegisterActivity : AppCompatActivity() {
                                     "idNumber" to idNumber,
                                     "name" to name,
                                     "email" to email,
-                                    "phoneNumber" to phoneNumber,
-                                    "password" to password,
-                                    "confirmPassword" to confirmPassword
+                                    "phoneNumber" to phoneNumber
                                 )
 
                                 db.collection("users").document(user?.uid.toString())

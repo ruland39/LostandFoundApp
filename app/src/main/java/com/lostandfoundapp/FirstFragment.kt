@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialDialogs
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.lostandfoundapp.databinding.FragmentFirstBinding
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
@@ -38,6 +39,7 @@ class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
     private val db = FirebaseFirestore.getInstance()
     private lateinit var swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    private var isDataRefreshing = false
 
 
     // This property is only valid between onCreateView and
@@ -89,51 +91,57 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Use a coroutine to fetch data asynchronously
-        lifecycleScope.launch {
-            val cardViewItems = fetchFirestoreData()
-
-            val recyclerView: RecyclerView = view.findViewById(R.id.itemcardcontainer)
-            val emptyView: ImageView = view.findViewById(R.id.empty_view)
-
-            if (cardViewItems.isEmpty()) {
-                // Show the empty view
-                recyclerView.visibility = View.GONE
-                emptyView.visibility = View.VISIBLE
-            } else {
-                // Show the RecyclerView
-                recyclerView.visibility = View.VISIBLE
-                emptyView.visibility = View.GONE
-
-                // Check if the adapter is already set
-                if (recyclerView.adapter == null) {
-                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                    recyclerView.adapter = CardViewAdapter(cardViewItems)
-                } else {
-                    // Adapter is already set, just update the data
-                    (recyclerView.adapter as CardViewAdapter).updateData(cardViewItems)
-                }
-            }
-
-//            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//            recyclerView.adapter = CardViewAdapter(cardViewItems)
-
-            //Swipe to Refresh
-            swipeRefreshLayout = binding.swipeRefreshLayout
-            swipeRefreshLayout.setOnRefreshListener {
-                refreshData()
-            }
+        //Swipe to Refresh
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshData()
         }
+
+        // Fetch data only if not already in the process of refreshing
+        if (!isDataRefreshing) {
+            refreshData()
+        }
+
     }
 
     private fun refreshData() {
         lifecycleScope.launch {
-            val cardViewItems = fetchFirestoreData()
-            val adapter = binding.itemcardcontainer.adapter as? CardViewAdapter
-            adapter?.updateData(cardViewItems)
+            // Show the refresh indicator
+            swipeRefreshLayout.isRefreshing = true
+            isDataRefreshing = true
 
-            // Hide the refresh indicator after data is loaded
-            swipeRefreshLayout.isRefreshing = false
+            try {
+                // Fetch data after a delay to allow Firestore to update
+                delay(200) // Adjust the delay time as needed
+                val cardViewItems = fetchFirestoreData()
+
+                // Set up RecyclerView and empty view
+                val recyclerView: RecyclerView = view?.findViewById(R.id.itemcardcontainer) ?: return@launch
+                val emptyView: ImageView = view?.findViewById(R.id.empty_view) ?: return@launch
+
+                if (cardViewItems.isEmpty()) {
+                    // Show the empty view
+                    recyclerView.visibility = View.GONE
+                    emptyView.visibility = View.VISIBLE
+                } else {
+                    // Show the RecyclerView
+                    recyclerView.visibility = View.VISIBLE
+                    emptyView.visibility = View.GONE
+
+                    // Check if the adapter is already set
+                    if (recyclerView.adapter == null) {
+                        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                        recyclerView.adapter = CardViewAdapter(cardViewItems)
+                    } else {
+                        // Adapter is already set, just update the data
+                        (recyclerView.adapter as CardViewAdapter).updateData(cardViewItems)
+                    }
+                }
+            } finally {
+                // Hide the refresh indicator after data is loaded
+                swipeRefreshLayout.isRefreshing = false
+                isDataRefreshing = false
+            }
         }
     }
 

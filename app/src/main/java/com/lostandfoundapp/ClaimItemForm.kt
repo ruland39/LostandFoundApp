@@ -222,7 +222,7 @@ class ClaimItemForm : AppCompatActivity() {
                         .document(documentID)
                         .update(
                             mapOf(
-                                "claimDetails" to claimDetail,
+                                "claimerDetails" to claimDetail,
                                 "isClaimed" to true
                             )
                         )

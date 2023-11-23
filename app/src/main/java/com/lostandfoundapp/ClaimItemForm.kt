@@ -117,7 +117,7 @@ class ClaimItemForm : AppCompatActivity() {
 
         // SUBMIT
         binding.submit.setOnClickListener {
-            Toast.makeText(this, "Item Claimed", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Item Claimed", Toast.LENGTH_SHORT).show()
 
 
             fetchDataFromFirestore()
@@ -270,7 +270,7 @@ class ClaimItemForm : AppCompatActivity() {
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this,
-                                "Claim Detail Updated in Firebase",
+                                "Item Claimed Successfully",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

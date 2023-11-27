@@ -169,10 +169,11 @@
         app:indicatorColor="@color/light_green"
         app:indicatorInset="12dp"
         app:indicatorSize="64dp"
-        app:trackColor="@color/light_green"
+        app:trackColor="@color/dark_green"
         app:trackCornerRadius="24dp"
         app:trackThickness="6dp"
         android:layout_margin="32dp"
+        android:indeterminate="true"
         />
 
     </com.google.android.material.card.MaterialCardView>

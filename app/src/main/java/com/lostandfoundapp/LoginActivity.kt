@@ -39,14 +39,14 @@ class LoginActivity : AppCompatActivity() {
             if(email.isNotEmpty() && password.isNotEmpty()){
 
                 //TODO: Circular Progress Bar not running
-//                showProgressBar()
+                showProgressBar()
 
                 firebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
 
-//                        handler.postDelayed({
-//                            hideProgressBar()
-//                        }, 1000)
+                        handler.postDelayed({
+                            hideProgressBar()
+                        }, 1000)
 
                         if (task.isSuccessful) {
                             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
@@ -97,12 +97,14 @@ class LoginActivity : AppCompatActivity() {
     //Progress Circular
     private fun showProgressBar(){
         binding.progressBarContainer.visibility = ProgressBar.VISIBLE
-        binding.progressBar.showAnimationBehavior = CircularProgressIndicator.SHOW_INWARD
+        binding.progressBar.visibility = ProgressBar.VISIBLE
+//        binding.progressBarContainer.visibility = ProgressBar.VISIBLE
+//        binding.progressBar.showAnimationBehavior = CircularProgressIndicator.SHOW_INWARD
     }
 
     private fun hideProgressBar(){
-        binding.progressBarContainer.visibility = ProgressBar.INVISIBLE
-        binding.progressBar.visibility = ProgressBar.INVISIBLE
+        binding.progressBarContainer.visibility = ProgressBar.GONE
+        binding.progressBar.visibility = ProgressBar.GONE
     }
 
     //Input Validation Checking

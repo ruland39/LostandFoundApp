@@ -1,25 +1,28 @@
-# Unilink
-A Proximity Based Social Networking Application
-![file cover - 1](https://user-images.githubusercontent.com/64399691/197495406-d440898d-084e-4109-9544-343447c81e5c.png)
+# LostandFoundApp
+A Lost and Found Item Management System Android Application 
+![lostandfoundappcover](https://github.com/ruland39/LostandFoundApp/assets/64399691/d0148c70-453a-45eb-b85e-9e6b1e27f6bb)
+
 
 ## Description
-Unilink is an open-source social networking platform for college students that uses Bluetooth Low-Energy technology to foster new connections. Unlike other social networks, Unilink focuses on matching users based on shared interests and hobbies to create meaningful and genuine connections. The app is similar to LinkedIn and encourages students to build their network while engaging with peers on a personal level. Developed using Java within the Android Studio IDE, Unilink is a native Android application designed to enhance campus connections and create a more supportive learning community.
+LostAndFoundApp is an Android Application developed using Kotlin and Firebase. This project aims to solve the lost and found management system on campus. It is firstly designed using Figma to conform all the functionalities that the app will have. It relies on Material Design as the UI design system chosen and Firestore to handle all the data management. This project is accomplished in a timeframe of 2 months from scratch to deployment.
 
-- This repository contains the entirety of Unilink's source code, without the API key's and secrets associated with the application.
-- Unilink was built using Java and the Android SDK. Compiled using Gradle.
+## Figma Design
+Click [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?type=design&node-id=19%3A1703&mode=design&t=YxG68jCPzsKWwjRt-1) to view the Figma design file
+
+- This repository contains the entirety of LostandFoundApp's source code associated with the application.
+- LostandFoundApp was built using Kotlin and the Android SDK. Compiled using Kotlin Compiler using JVM.
 
 ## Installation
-- Download the latest `.apk` instance from [here](https://drive.google.com/uc?export=download&id=1yJOC7ESYqHecNI9728Lmu_yNRu9JFQgK) or through the GitHub releases.
+- Download the latest `.apk` instance from [here](https://drive.google.com/file/d/1AqbOQ1XbU0WbaPMt_ZKN9b54dFKT8QNe/view?usp=sharing) or through the GitHub releases.
 - Allow installation from third-party sources on your Android application
-- Current release information: `alpha-pre-release-v1.0`
+- Current release information: `v1.0`
+
+## Credits
+[Google Material Design](https://m3.material.io/)
+
+[Google Firebase](https://firebase.google.com/)
+
+[Glide Image Loader](https://github.com/bumptech/glide )
 
 ## Contribution
-- This repository contains the source code for Unilink, as a school project. Feel free to contribute further to the development by simply cloning this repository through Android Studio or your preferred IDE.
-- You can build the application by running the following commands:
-```bash
-# Ensure that you are in the intended directory
-git clone https://github.com/ruland39/Unilink.git
-cd ./Unilink
-./gradlew assembleDebug # Compiles into a debug .apk instance in the Unilink/app/build/outputs/apk/debug folder
-# This .apk file should be aptly named "app-debug.apk", use adb or an emulator to run the application.
-```
+- This repository contains the source code for LostandFoundApp, as a school project. Feel free to contribute further to the development by simply cloning this repository through Android Studio or your preferred IDE.

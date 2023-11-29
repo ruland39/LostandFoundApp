@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if(idNumber.isNotEmpty() && name.isNotEmpty() && email.isNotEmpty() && phoneNumber.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
 
-//                showProgressBar()
+                showProgressBar()
 
                 if(checkEmail(email)){
                     if(checkPassword(password, confirmPassword)){
@@ -79,9 +79,9 @@ class RegisterActivity : AppCompatActivity() {
                                         Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                                     }
 
-//                                handler.postDelayed({
-//                                    hideProgressBar()
-//                                }, 1000)
+                                handler.postDelayed({
+                                    hideProgressBar()
+                                }, 1000)
 
 
                             }
@@ -133,12 +133,12 @@ class RegisterActivity : AppCompatActivity() {
     //Progress Circular
     private fun showProgressBar(){
         binding.progressBarContainer.visibility = ProgressBar.VISIBLE
-        binding.progressBar.showAnimationBehavior = CircularProgressIndicator.SHOW_INWARD
+        binding.progressBar.visibility = ProgressBar.VISIBLE
     }
 
     private fun hideProgressBar(){
-        binding.progressBarContainer.visibility = ProgressBar.INVISIBLE
-        binding.progressBar.visibility = ProgressBar.INVISIBLE
+        binding.progressBarContainer.visibility = ProgressBar.GONE
+        binding.progressBar.visibility = ProgressBar.GONE
     }
 
     //Input Validation Checking

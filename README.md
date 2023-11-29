@@ -4,10 +4,13 @@ A Lost and Found Item Management System Android Application
 
 
 ## Description
-LostAndFoundApp is an Android Application developed using Kotlin and Firebase. This project aims to solve the lost and found management system on campus. It is firstly designed using Figma to conform all the functionalities that the app will have. It relies on Material Design as the UI design system chosen and Firestore to handle all the data management. This project is accomplished in a timeframe of 1 month from scratch to deployment.
+LostAndFoundApp is an Android Application developed using Kotlin and Firebase. This project aims to solve the lost and found management system on campus. It is firstly designed using Figma to conform all the functionalities that the app will have. It relies on Material Design as the UI design system chosen and Firestore to handle all the data management. This project is accomplished in a timeframe of 1 month from scratch to deployment. <br><br>
 
 ## Figma
 The Design file can be accessed [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?type=design&node-id=19%3A1703&mode=design&t=YxG68jCPzsKWwjRt-1) and the prototype [here](https://www.figma.com/proto/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?node-id=60-181)
+
+## Demo Video
+https://github.com/ruland39/LostandFoundApp/assets/64399691/7f05a6e0-991b-48cf-9a82-f73bd655ae83
 
 ## Additional Info
 - This repository contains the entirety of LostandFoundApp's source code associated with the application.

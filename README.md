@@ -1,14 +1,15 @@
 # LostandFoundApp
-A Lost and Found Item Management System Android Application 
+A Lost and Found Item Management System Android Application    
 ![lostandfoundappcover](https://github.com/ruland39/LostandFoundApp/assets/64399691/d0148c70-453a-45eb-b85e-9e6b1e27f6bb)
 
 
 ## Description
-LostAndFoundApp is an Android Application developed using Kotlin and Firebase. This project aims to solve the lost and found management system on campus. It is firstly designed using Figma to conform all the functionalities that the app will have. It relies on Material Design as the UI design system chosen and Firestore to handle all the data management. This project is accomplished in a timeframe of 2 months from scratch to deployment.
+LostAndFoundApp is an Android Application developed using Kotlin and Firebase. This project aims to solve the lost and found management system on campus. It is firstly designed using Figma to conform all the functionalities that the app will have. It relies on Material Design as the UI design system chosen and Firestore to handle all the data management. This project is accomplished in a timeframe of 1 month from scratch to deployment.
 
 ## Figma
-Click [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?type=design&node-id=19%3A1703&mode=design&t=YxG68jCPzsKWwjRt-1) to view the **design** file and [here](https://www.figma.com/proto/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?node-id=60-181) to test out the **prototype**
+The Design file can be accessed [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?type=design&node-id=19%3A1703&mode=design&t=YxG68jCPzsKWwjRt-1) and the prototype [here](https://www.figma.com/proto/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?node-id=60-181)
 
+## Additional Info
 - This repository contains the entirety of LostandFoundApp's source code associated with the application.
 - LostandFoundApp was built using Kotlin and the Android SDK. Compiled using Kotlin Compiler using JVM.
 
@@ -25,4 +26,4 @@ Click [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?t
 [Glide Image Loader](https://github.com/bumptech/glide )
 
 ## Contribution
-- This repository contains the source code for LostandFoundApp, as a school project. Feel free to contribute further to the development by simply cloning this repository through Android Studio or your preferred IDE.
+This repository contains the source code for LostandFoundApp, as a school project. Feel free to contribute further to the development by simply cloning this repository through Android Studio or your preferred IDE.

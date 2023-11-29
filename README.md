@@ -10,9 +10,10 @@ LostAndFoundApp is an Android Application developed using Kotlin and Firebase. T
 The Design file can be accessed [here](https://www.figma.com/file/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?type=design&node-id=19%3A1703&mode=design&t=YxG68jCPzsKWwjRt-1) and the prototype [here](https://www.figma.com/proto/lrPmqUYGLsXdPJ8arzGTCN/LostandFoundApp?node-id=60-181)
 
 ## Demo Video
-https://github.com/ruland39/LostandFoundApp/assets/64399691/7f05a6e0-991b-48cf-9a82-f73bd655ae83
+https://github.com/ruland39/LostandFoundApp/assets/64399691/7f05a6e0-991b-48cf-9a82-f73bd655ae83  
 
 ## Additional Info
+- If the video is buffering all the time (which I assume is most likely), you can view it [here](https://drive.google.com/file/d/1-vycGhO3yBl_8Z_vAEjfvR0gutlgq7C0/view) instead
 - This repository contains the entirety of LostandFoundApp's source code associated with the application.
 - LostandFoundApp was built using Kotlin and the Android SDK. Compiled using Kotlin Compiler using JVM.
 

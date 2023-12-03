@@ -45,6 +45,8 @@ https://github.com/ruland39/LostandFoundApp/assets/64399691/7f05a6e0-991b-48cf-9
    - Fill up all the item details (you can only proceed if all details are filled)
    - Submit the item report by clicking on the `Submit` button
    - If a report is successful, it will create the item card on the home page
+  
+8. Additionally, you can click on the menu button on the top right side of the home page > Help > to make Email and Phone Call for any further assistance
 
 
 ## Credits

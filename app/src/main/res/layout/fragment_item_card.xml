@@ -59,6 +59,21 @@
                     android:layout_weight="1"
                     />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/claimed_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/claimed"
+                    android:textSize="12sp"
+                    android:textColor="@color/light_green"
+                    android:fontFamily="@font/product_sans_bold"
+                    android:textAlignment="center"
+                    app:chipBackgroundColor="@color/translucent_dark_green"
+                    app:chipStrokeWidth="0dp"
+                    app:chipCornerRadius="100dp"
+                    android:visibility="gone"
+                    />
+
                 <androidx.appcompat.widget.AppCompatToggleButton
                     android:id="@+id/dropdownbutton"
                     android:layout_width="wrap_content"

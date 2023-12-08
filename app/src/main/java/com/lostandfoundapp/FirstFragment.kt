@@ -256,11 +256,15 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val detailsContainer = itemView.findViewById<View>(R.id.details_container)
             val dropDownButton = itemView.findViewById<ToggleButton>(R.id.dropdownbutton)
             val claimButton = itemView.findViewById<Button>(R.id.claim_button)
+            val claimedChip = itemView.findViewById<com.google.android.material.chip.Chip>(R.id.claimed_chip)
 
             //Disable Claim Button if item isClaimed=true
             if (item.isClaimed) {
+
+                claimedChip.visibility = View.VISIBLE
+
                 claimButton.isEnabled = false
-                claimButton.text = "Item has been claimed"
+                claimButton.text = itemView.context.getString(R.string.item_has_been_claimed)
             }
 
 

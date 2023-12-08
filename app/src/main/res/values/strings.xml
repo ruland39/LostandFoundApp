@@ -124,5 +124,7 @@
     <string name="boxinsecurityoffice">BoxinSecurityOffice</string>
     <string name="sa_building_1st_floor">SA Building 1st Floor</string>
     <string name="security_location">2.9438464321265827, 101.8759196217144</string>
+    <string name="claimed">Claimed</string>
+    <string name="item_has_been_claimed">Item has been claimed</string>
 
 </resources>

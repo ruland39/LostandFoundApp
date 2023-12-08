@@ -33,18 +33,27 @@ import com.google.gson.Gson
 import com.lostandfoundapp.databinding.ActivityReportLostItemFormBinding
 import java.io.File
 import java.io.FileOutputStream
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
 class ReportLostItemFormActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityReportLostItemFormBinding
+    lateinit var binding: ActivityReportLostItemFormBinding
     private val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
     private var firstFragment: FirstFragment? = null
-    private val timestamp = System.currentTimeMillis()/1000
+    private val timestamp = System.currentTimeMillis()
+
+    // Format the timestamp into yyyy-MM-dd HH:mm:ss
+    private val formattedTimestamp: String
+        get() {
+            val dateFormat = DateFormat.getDateTimeInstance()
+            return dateFormat.format(Date(timestamp))
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -328,7 +337,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
                 // Create a LostItem object
                 val lostItem = LostItem(
                     //TODO: Change documentID to readeable format
-                    documentID = "LostItem_$timestamp",
+                    documentID = "LostItem = $formattedTimestamp",
                     photoUrl = photoUrl,
                     name = binding.name.text.toString(),
                     category = binding.category.selectedItem.toString(),
@@ -421,7 +430,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
     private fun uploadPhotoToFirebase(imageUri: Uri) {
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val lostItemsRef = storageRef.child("items/LostItem_$timestamp.jpg")
+        val lostItemsRef = storageRef.child("items/LostItem = $formattedTimestamp.jpg")
 
         lostItemsRef.putFile(imageUri)
             .addOnSuccessListener { _ ->
@@ -484,7 +493,7 @@ class ReportLostItemFormActivity : AppCompatActivity() {
 //                    Toast.makeText(this, "Data saved to Firebase", Toast.LENGTH_SHORT).show()
                                 Toast.makeText(
                                     this,
-                                    "Item Reported Successfully",
+                                    "${lostItem.name} has been reported successfully",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }

@@ -300,6 +300,13 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             claimButton.setOnClickListener {
 
                 val intent = Intent(itemView.context, ClaimProceedActivity::class.java)
+                //pass documentID and itemName to next activity
+                intent.putExtra("documentID", item.documentID)
+                intent.putExtra("itemName", item.itemName)
+
+                //Toast the documentID and itemName
+//                Toast.makeText(itemView.context, item.documentID + item.itemName, Toast.LENGTH_SHORT).show()
+
                 itemView.context.startActivity(intent)
 
             }

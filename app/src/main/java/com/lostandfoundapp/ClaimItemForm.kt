@@ -26,12 +26,19 @@ class ClaimItemForm : AppCompatActivity() {
     private val PICK_IMAGES_REQUEST_CODE = 123
     private lateinit var photoUrl: String
     private lateinit var documentID: String
+    private lateinit var itemName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityClaimItemFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //receive documentID and itemName from previous activity
+        documentID = intent.getStringExtra("documentID") ?: ""
+        itemName = intent.getStringExtra("itemName") ?: ""
+
+
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -63,6 +70,9 @@ class ClaimItemForm : AppCompatActivity() {
         binding.submit.setOnClickListener {
             fetchDataFromFirestore()
             saveDataToFirestore()
+
+            Toast.makeText(this, "$itemName has been claimed successfully", Toast.LENGTH_SHORT).show()
+
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -186,7 +196,8 @@ class ClaimItemForm : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val itemRef = db.collection("items")
 
-        itemRef.get()
+        itemRef.whereEqualTo("documentID", documentID)
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     documentID = document.getString("documentID") ?: ""

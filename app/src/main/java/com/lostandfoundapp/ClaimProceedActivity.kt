@@ -15,14 +15,20 @@ class ClaimProceedActivity : AppCompatActivity() {
         binding = ActivityClaimProceedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //receive documentID and itemName from previous activity
+        val documentID = intent.getStringExtra("documentID")
+        val itemName = intent.getStringExtra("itemName")
+
         binding.backButton.setOnClickListener {
             finish()
         }
 
         binding.proceedButton.setOnClickListener {
-//            Toast.makeText(this, "Claim Successful", Toast.LENGTH_SHORT).show()
-
             val intent = Intent(this, ClaimItemForm::class.java)
+            //pass documentID and itemName to next activity
+            intent.putExtra("documentID", documentID)
+            intent.putExtra("itemName", itemName)
+//            Toast.makeText(this, documentID + itemName, Toast.LENGTH_SHORT).show()
             startActivity(intent)
 
         }

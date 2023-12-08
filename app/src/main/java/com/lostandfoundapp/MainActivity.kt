@@ -3,8 +3,10 @@ package com.lostandfoundapp
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -17,6 +19,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -147,7 +150,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_settings -> {
-                Toast.makeText(this, "No Function :P", Toast.LENGTH_SHORT).show()
+                // Toggle between dark mode and light mode
+                val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+                val newNightMode = if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES) {
+                    // Switch to light mode
+                    AppCompatDelegate.MODE_NIGHT_NO
+                } else {
+                    // Switch to dark mode
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+
+                // Apply the new night mode
+                AppCompatDelegate.setDefaultNightMode(newNightMode)
+
+                // Recreate the activity to apply the changes
+                recreate()
+
                 true
             }
 

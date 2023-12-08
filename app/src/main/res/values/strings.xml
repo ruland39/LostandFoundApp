@@ -122,5 +122,7 @@
     <string name="please_fill_in_the_form_to_report_a_lost_item">Please fill in the form to report a lost item</string>
     <string name="make_sure_to_place_the_item_in_the_box_in_front_of_the_security_office_located_in_the_1st_floor_of_the_sa_building">Make sure to place the Item in the box in front of the Security Office located in the 1st Floor of the SA Building</string>
     <string name="boxinsecurityoffice">BoxinSecurityOffice</string>
+    <string name="sa_building_1st_floor">SA Building 1st Floor</string>
+    <string name="security_location">2.9438464321265827, 101.8759196217144</string>
 
 </resources>

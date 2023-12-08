@@ -99,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 //button declaration
                 val emailSecurity = dialogView.findViewById<TextView>(R.id.security_email)
                 val phoneSecurity = dialogView.findViewById<TextView>(R.id.security_phone_number)
+                val locationSecurity = dialogView.findViewById<TextView>(R.id.security_location)
 
 
                 //mail to
@@ -121,6 +122,13 @@ class MainActivity : AppCompatActivity() {
                 phoneSecurity.setOnClickListener {
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse("tel:" + resources.getString(R.string._603_8924_8065))
+                    startActivity(intent)
+                }
+
+                //open map
+                locationSecurity.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("geo:0,0?q=" + Uri.encode(resources.getString(R.string.security_location)))
                     startActivity(intent)
                 }
 

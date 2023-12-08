@@ -59,6 +59,23 @@
             android:textSize="16sp"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_bold"
+            android:text="@string/location"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            />
+        <TextView
+            android:id="@+id/security_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans_regular"
+            android:text="@string/sa_building_1st_floor"
+            android:textSize="16sp"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

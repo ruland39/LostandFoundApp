@@ -238,11 +238,7 @@ class ClaimItemForm : AppCompatActivity() {
                             )
                         )
                         .addOnSuccessListener {
-                            Toast.makeText(
-                                this,
-                                "Item Claimed Successfully",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(this, "Item Claimed Successfully", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener {
                             Toast.makeText(

@@ -77,6 +77,28 @@ class ReportLostItemFormActivity : AppCompatActivity() {
             finish()
         }
 
+        //TODO: Add Dialog Layout
+        MaterialAlertDialogBuilder(this)
+            .setView(R.layout.dialog_report)
+            .setPositiveButton("Got it!") { dialog, _ ->
+                // Respond to positive button press
+                dialog.dismiss()
+
+                if (!isNetworkConnected(this)) {
+                    //no internet
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("No Internet Connection")
+                        .setMessage("Item will be saved locally. Item will be uploaded once there is Internet Connection")
+                        .setPositiveButton("Okay") { dialog, _ ->
+                            // Respond to positive button press
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+
+            }
+            .show()
+
 
         //Variables Declaration
         val photo = binding.addPhoto

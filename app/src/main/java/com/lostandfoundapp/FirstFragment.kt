@@ -299,7 +299,7 @@ class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             claimButton.setOnClickListener {
 
-                val intent = Intent(itemView.context, ClaimProceedActivity::class.java)
+                val intent = Intent(itemView.context, ClaimItemForm::class.java)
                 //pass documentID and itemName to next activity
                 intent.putExtra("documentID", item.documentID)
                 intent.putExtra("itemName", item.itemName)

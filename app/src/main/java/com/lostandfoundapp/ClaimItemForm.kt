@@ -34,11 +34,24 @@ class ClaimItemForm : AppCompatActivity() {
         binding = ActivityClaimItemFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        //receive documentID and itemName from previous activity
+//        val documentID = intent.getStringExtra("documentID")
+//        val itemName = intent.getStringExtra("itemName")
+
         //receive documentID and itemName from previous activity
         documentID = intent.getStringExtra("documentID") ?: ""
         itemName = intent.getStringExtra("itemName") ?: ""
 
+//        Toast.makeText(this, documentID + itemName, Toast.LENGTH_SHORT).show()
 
+        //TODO: Add Dialog Layout
+        MaterialAlertDialogBuilder(this)
+            .setView(R.layout.dialog_claim)
+            .setPositiveButton("Got it!") { dialog, _ ->
+                // Respond to positive button press
+                dialog.dismiss()
+            }
+            .show()
 
         firebaseAuth = FirebaseAuth.getInstance()
 

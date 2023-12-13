@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.lostandfoundapp.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRegisterBinding
+    lateinit var binding: ActivityRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private val handler = Handler(Looper.getMainLooper())
 

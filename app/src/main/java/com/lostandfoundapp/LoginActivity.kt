@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lostandfoundapp.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+    lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private val handler = Handler(Looper.getMainLooper())
 
@@ -77,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private val textWatcher = object : TextWatcher {
+    val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
         }
 
@@ -108,11 +108,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //Input Validation Checking
-    private fun checkEmail(email: String): Boolean {
+    fun checkEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
     }
-    private fun checkPassword(password: String): Boolean {
+    fun checkPassword(password: String): Boolean {
         return if(password.length < 8){
             Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
             false

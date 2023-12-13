@@ -61,16 +61,6 @@ class ReportLostItemFormActivity : AppCompatActivity() {
         binding = ActivityReportLostItemFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //TODO: Add Dialog Layout
-        MaterialAlertDialogBuilder(this)
-            .setView(R.layout.dialog_report)
-            .setPositiveButton("Got it!") { dialog, _ ->
-                // Respond to positive button press
-                dialog.dismiss()
-            }
-            .show()
-
-
         val defaultPhoto = ContextCompat.getDrawable(this, R.drawable.addphoto)
 
         binding.backButton.setOnClickListener {
